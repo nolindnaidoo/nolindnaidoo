@@ -15,8 +15,7 @@ also building open-source developer tools in public. The through-line:
 - Co-founded **Polylingo**: the first multilingual EMS communication
   platform, adopted by fire departments across Texas and beyond —
   Texas Fire Chief's Lone Star Achievement Award, EMS World Top
-  Innovation Award, a patent along the way
-  ([US 20100223050 A1](https://patents.google.com/patent/US20100223050A1/en)),
+  Innovation Award, a patent along the way,
   and an acquisition by ESO Solutions.
 - Led **ADA / WCAG / Section 508** remediation at Fortune-500 scale —
   the same rigor now gates my open source (axe runs on every page, in
