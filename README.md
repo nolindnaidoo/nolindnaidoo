@@ -55,7 +55,7 @@ VSX and the VS Code Marketplace. All ten on one page at
   and validate regular expressions with ReDoS screening
 - [scrape-le](https://github.com/nolindnaidoo/scrape-le) — check
   whether a page is scrapeable before you write the scraper
-- [strings-le](https://github.com/nolindnaidoo/strings-le) — extract
+- [string-le](https://github.com/nolindnaidoo/string-le) — extract
   string values for i18n from JSON, YAML, CSV, TOML, INI, and `.env`
 - [numbers-le](https://github.com/nolindnaidoo/numbers-le) — extract
   numeric values from JSON, YAML, CSV, TOML, INI, and `.env`
