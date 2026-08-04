@@ -41,7 +41,21 @@ pixel-exact coordinates machines can use** — versioned JSON, labeled
 crops, click code, verification with exit codes, self-healing
 re-location. Rust · free · MIT · macOS · Windows · Linux.
 
+### [pixelactions](https://github.com/nolindnaidoo/pixelactions)
+
+[![crates.io](https://img.shields.io/crates/v/pixelactions.svg)](https://crates.io/crates/pixelactions)
+[![CI](https://github.com/nolindnaidoo/pixelactions/actions/workflows/ci.yml/badge.svg)](https://github.com/nolindnaidoo/pixelactions/actions/workflows/ci.yml)
+[![pixelactions.dev](https://img.shields.io/badge/web-pixelactions.dev-00A0FF.svg)](https://pixelactions.dev)
+
+**Consume human-verified coordinates, perform the interaction, confirm
+it landed** — click, type, chord, drag, scroll, driven from a chained
+CLI, a flow file, or a line protocol any language can speak. The other
+half of pixelcoords. Rust · free · MIT · macOS.
+
 ### [The `*-le` suite](https://letools.dev)
+
+[![installs](https://img.shields.io/badge/installs-75%2C000%2B-00A0FF.svg)](https://letools.dev)
+[![letools.dev](https://img.shields.io/badge/web-letools.dev-00A0FF.svg)](https://letools.dev)
 
 Ten zero-hassle developer utilities — **75,000+ installs** across Open
 VSX and the VS Code Marketplace. All ten on one page at
