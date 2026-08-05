@@ -1,0 +1,95 @@
+/*
+ * Global layer: tokens, resets, and the two typefaces. Everything else is a
+ * component-scoped <style> block — this file exists so the palette has exactly
+ * one definition and both themes stay in lockstep.
+ *
+ * Accent (electric blue) is the only saturated colour on the page, so nothing
+ * competes with it. Deliberately NOT the pixelcoords cyan: that palette belongs
+ * to the product, not to the person.
+ */
+
+@font-face {
+	font-family: "JetBrains Mono";
+	src: url("/fonts/JetBrainsMono-Regular.subset.woff2") format("woff2");
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+
+:root {
+	--paper: #ffffff;
+	--ink: #0a0b0d;
+	--muted: rgba(10, 11, 13, 0.68);
+	--rule: rgba(10, 11, 13, 0.14);
+	--hair: rgba(10, 11, 13, 0.09);
+	--accent: #0038ff;
+	--wash: rgba(0, 56, 255, 0.06);
+
+	--sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+	--mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	--pad: clamp(16px, 4.2vw, 72px);
+
+	color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--paper: #0a0a0c;
+		--ink: #f0f0f2;
+		--muted: rgba(240, 240, 242, 0.72);
+		--rule: rgba(255, 255, 255, 0.16);
+		--hair: rgba(255, 255, 255, 0.1);
+		--accent: #6b8fff;
+		--wash: rgba(107, 143, 255, 0.1);
+	}
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	overflow-x: clip;
+}
+
+body {
+	margin: 0;
+	background: var(--paper);
+	color: var(--ink);
+	font-family: var(--sans);
+	font-size: 16px;
+	-webkit-text-size-adjust: 100%;
+}
+
+::selection {
+	background: var(--accent);
+	color: var(--paper);
+}
+
+:focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: 3px;
+}
+
+/* Low-vision users who ask for more contrast get firmer rules and full-strength
+   secondary text — the muted ramp is a design nicety, not something to defend
+   when someone has explicitly said they cannot read it. */
+@media (prefers-contrast: more) {
+	:root {
+		--muted: var(--ink);
+		--rule: color-mix(in srgb, var(--ink) 55%, transparent);
+		--hair: color-mix(in srgb, var(--ink) 40%, transparent);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		transition-duration: 0.01ms !important;
+	}
+}
