@@ -1,0 +1,59 @@
+import type { Capability, PlatformSystem } from './types';
+
+/**
+ * Current work. The company name appears here and nowhere else in the codebase,
+ * so a rebrand is a one-line edit rather than a grep across components and
+ * structured data.
+ *
+ * The IP line: receipts, never the recipe. Nothing here names training
+ * architecture, model families, or tooling behind the seam — what the systems
+ * *are* and how they're *verified*, never how they're built. If a summary
+ * wouldn't ship on splitwinner.com, it doesn't ship here.
+ */
+export const platform: Readonly<{
+	company: string;
+	lede: string;
+	body: string;
+	systems: readonly PlatformSystem[];
+	capabilities: readonly Capability[];
+}> = Object.freeze({
+	company: 'SplitWinner',
+	lede: 'The only sports prediction feed with a public audit trail.',
+	body: `I build and operate SplitWinner (formerly OffensiveEdge) — every prediction hashed
+		and Bitcoin-anchored before kickoff into an append-only public ledger, verifiable by
+		anyone with one file of stdlib Python. Built end-to-end by one engineer: data
+		pipelines, model training and serving, the API, the desk terminal, and the
+		verification layer. The differentiator isn't the claims, it's that you never have to
+		trust them.`,
+	systems: Object.freeze([
+		Object.freeze({
+			kind: 'Predictive',
+			name: 'SplitWinner',
+			summary:
+				'Sports prediction for sportsbook trading desks — calibrated, conformal, and anchored to a public immutable ledger before every kickoff. Records get faked in this category; this one can’t be, not even by us.',
+			url: 'https://www.splitwinner.com',
+		}),
+	]),
+	capabilities: Object.freeze([
+		Object.freeze({
+			label: 'Verification',
+			detail:
+				'A public append-only audit trail with Bitcoin-anchored timestamps — one pure-stdlib verifier checks the whole chain, no account, no trust required.',
+		}),
+		Object.freeze({
+			label: 'Modeling',
+			detail:
+				'Calibrated probabilities with conformal sets, validated on held-out data and proven in a five-week public live alpha — skips disclosed, nothing deleted.',
+		}),
+		Object.freeze({
+			label: 'MLOps',
+			detail:
+				'Daily training-to-serving pipelines behind a signed, versioned API — parallel model deployment, automated versioning, sub-second inference.',
+		}),
+		Object.freeze({
+			label: 'Product',
+			detail:
+				'Full-stack architecture across Next.js, React, React Native, TypeScript and Python, unifying every product surface on one inference backbone.',
+		}),
+	]),
+});
