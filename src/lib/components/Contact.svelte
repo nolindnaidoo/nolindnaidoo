@@ -19,9 +19,6 @@ import { contact } from '$content/profile';
         <a href={link.href}>{link.label}<span aria-hidden="true">&nbsp;↗</span></a>
       </li>
     {/each}
-    <li>
-      <a href={contact.resume.href} download>{contact.resume.label}</a>
-    </li>
   </ul>
 </footer>
 

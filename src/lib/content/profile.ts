@@ -34,7 +34,6 @@ export const contact: Readonly<{
 	availability: string;
 	primary: Link;
 	links: readonly Link[];
-	resume: Link;
 }> = Object.freeze({
 	availability:
 		'Taking one senior contract at a time — production ML, agentic systems, full-stack. Remote, US.',
@@ -49,13 +48,6 @@ export const contact: Readonly<{
 		}),
 		Object.freeze({ label: 'github.com/nolindnaidoo', href: 'https://github.com/nolindnaidoo' }),
 	]),
-	/**
-	 * Served from static/ rather than linked to a Google Doc: a canonical URL
-	 * that prints, attaches, and survives a corporate network that blocks
-	 * Drive. Carries no email or phone — every contact route is the LinkedIn
-	 * link above it, deliberately.
-	 */
-	resume: Object.freeze({ label: 'Résumé (PDF)', href: '/nolindnaidoo-resume.pdf' }),
 });
 
 /**
