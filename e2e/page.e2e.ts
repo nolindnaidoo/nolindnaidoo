@@ -1,23 +1,59 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
+import { caseStudies } from '../src/lib/content/case-studies';
 import { SITE_URL } from '../src/lib/content/site';
 import { OG_IMAGE } from '../src/lib/content/social';
 
 const SCHEMES = ['light', 'dark'] as const;
 
+const WCAG = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa', 'section508'] as const;
+
+/**
+ * Every prerendered page, not just the home page. A case study is a full
+ * document with its own heading structure and link set — auditing only `/`
+ * would gate the section that introduces the studies while leaving the studies
+ * themselves unchecked.
+ */
+const PAGES: readonly string[] = [
+	'/',
+	'/case-studies',
+	...caseStudies.map(({ slug }) => `/case-studies/${slug}`),
+];
+
 for (const scheme of SCHEMES) {
 	test.describe(`${scheme} scheme`, () => {
 		test.use({ colorScheme: scheme });
 
-		test('has no detectable accessibility violations', async ({ page }) => {
-			await page.goto('/');
-			const results = await new AxeBuilder({ page })
-				.withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa', 'section508'])
-				.analyze();
-			expect(results.violations).toEqual([]);
-		});
+		for (const path of PAGES) {
+			test(`has no detectable accessibility violations on ${path}`, async ({ page }) => {
+				await page.goto(path);
+				const results = await new AxeBuilder({ page }).withTags([...WCAG]).analyze();
+				expect(results.violations).toEqual([]);
+			});
+		}
 	});
 }
+
+test.describe('case study pages', () => {
+	for (const study of caseStudies) {
+		const path = `/case-studies/${study.slug}`;
+
+		test(`${path} names itself in one h1`, async ({ page }) => {
+			await page.goto(path);
+			await expect(page.getByRole('heading', { level: 1, name: study.title })).toBeVisible();
+		});
+
+		test(`${path} returns to the index without a nav`, async ({ page }) => {
+			await page.goto(path);
+			// The way out is a single link back to the section that sent you. If
+			// this page ever grows persistent navigation, this is the test that
+			// should be deleted deliberately rather than quietly passing.
+			await expect(page.getByRole('navigation')).toHaveCount(0);
+			await page.getByRole('link', { name: /all case studies/i }).click();
+			await expect(page).toHaveURL(/\/case-studies$/);
+		});
+	}
+});
 
 test('exposes the name as a single accessible heading', async ({ page }) => {
 	await page.goto('/');

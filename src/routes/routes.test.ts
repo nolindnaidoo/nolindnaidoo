@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
+import { caseStudies } from '$content/case-studies';
 import { SITE_URL } from '$content/site';
+import { entries, load } from './case-studies/[slug]/+page';
 import { GET as robots } from './robots.txt/+server';
 import { GET as sitemap } from './sitemap.xml/+server';
 
@@ -51,9 +53,49 @@ describe('sitemap.xml', () => {
 		expect(body.startsWith('<?xml version="1.0" encoding="UTF-8"?>')).toBe(true);
 		expect(body).toContain('<urlset');
 		expect(body).toContain('</urlset>');
-		// One page, one entry. A second <url> means a route was added without
-		// anyone deciding whether it should be indexed.
-		expect(body.match(/<url>/g)).toHaveLength(1);
+		// The home page, the case-studies index, and one entry per study — counted
+		// against the module that owns them rather than a literal. The original
+		// guard asserted a single <url> so a route could not be added without
+		// someone deciding whether it should be indexed; deriving the count keeps
+		// that decision enforced while letting the studies grow.
+		expect(body.match(/<url>/g)).toHaveLength(caseStudies.length + 2);
+	});
+
+	it('lists every case study exactly once', async () => {
+		const body = await (await call(sitemap)).text();
+		for (const study of caseStudies) {
+			const loc = `<loc>${SITE_URL}/case-studies/${study.slug}</loc>`;
+			expect(body.split(loc)).toHaveLength(2);
+		}
+	});
+});
+
+describe('case study pages', () => {
+	/**
+	 * `load` only reads `params`, and SvelteKit's event type is far wider than
+	 * that. Narrowing to what the function actually touches is what lets a test
+	 * call it without constructing a whole navigation event.
+	 */
+	const loadSlug = (slug: string) =>
+		(load as unknown as (event: { params: { slug: string } }) => { study: { slug: string } })({
+			params: { slug },
+		});
+
+	it('prerenders one entry per study', () => {
+		const generated = (entries as () => { slug: string }[])();
+		expect(generated.map(({ slug }) => slug)).toEqual(caseStudies.map(({ slug }) => slug));
+	});
+
+	it('resolves a known slug to its study', () => {
+		const first = caseStudies[0];
+		expect(first).toBeDefined();
+		expect(loadSlug((first as { slug: string }).slug).study).toBe(first);
+	});
+
+	it('refuses an unknown slug rather than rendering an empty page', () => {
+		// A 404 here is the loud failure. Returning undefined would prerender a
+		// page with no content and no error, which is the silent version.
+		expect(() => loadSlug('not-a-study')).toThrow();
 	});
 });
 

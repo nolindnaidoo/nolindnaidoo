@@ -46,15 +46,16 @@ would race the Vercel build. Vercel is the only deploy path.
 
 | Script | What it protects |
 |---|---|
-| `bun run budget` | Payload ceilings per asset class. A floor to ratchet **down**; raising one needs the reason in the commit body. |
+| `bun run budget` | Payload ceilings per asset class. A floor to ratchet **down**; raising one needs the reason in the commit body. **Scripts, styles and fonts are summed; HTML is measured per page** — a visitor downloads the whole shared bundle but exactly one document, so summing HTML made the ceiling a cap on how many pages the site may have, which is not a performance property. |
 | `bun run verify:content` | Countable claims against the sources that own them — marketplace installs, extension count, public repos. Drift fails; an unreachable source warns and passes, because an outage says nothing about honesty. |
 | `bun run og` | Re-renders `static/og.png` from the site's own hero using Playwright, which is already in the tree. Committed, not built at deploy time: a crawler must find it on first request. |
 
 ### Coverage
 
 Enforced at **100 / 100 / 100 statements, functions, lines** and **93 branches**
-over everything that carries behaviour: `content/`, `seo/`, `actions/`, the two
-route handlers, and `scripts/`. The remaining branches are optional-chain and
+over everything that carries behaviour: `content/`, `seo/`, `actions/`, the
+route handlers (`robots.txt`, `sitemap.xml`, and the case-study `+page.ts`), and
+`scripts/`. The remaining branches are optional-chain and
 nullish guards on external JSON whose absent shape cannot occur without the API
 changing; contriving those cases would assert the stub rather than the code.
 
@@ -89,12 +90,15 @@ src/
   lib/
     content/           all copy, as frozen typed data — one module per concept:
                        site · profile · ledger · platform · roster · projects
-                       · credentials · standards. types.ts holds types only.
+                       · credentials · standards · case-studies. types.ts holds
+                       types only.
     components/        one component per section, scoped styles. Band and Note
                        exist because their rules were duplicated across three.
     actions/           Svelte actions (client-only by construction)
     seo/               structured data derived from content/
-  routes/              +layout (skip link), +page (composition + <svelte:head>)
+  routes/              +layout (skip link), +page (composition + <svelte:head>),
+                       case-studies/ (index) and case-studies/[slug] (one per
+                       study) — long-form prose, off the home page by design
 static/fonts/          JetBrains Mono subset, vendored (OFL 1.1)
 scripts/               commit-lint.js — one validator, hook and CI both call it
 e2e/                   Playwright specs (*.e2e.ts)
@@ -139,6 +143,21 @@ block — and because building strings is not a render body's job.
   makes a screen reader announce nine destinations that are one destination.
 - **Titles and claims track the résumé and LinkedIn.** If those change, this
   changes in the same pass.
+- **The home page is one page, and there is no navigation anywhere.** Case
+  studies live on their own route — `/case-studies` for the index, one page per
+  study a layer down — because the connective narrative is a document, and
+  fourteen paragraphs of continuous prose inside a page built from compressed
+  sections changes what that page is. A study page returns with a single link,
+  never a nav bar. Hierarchy is expressed by where something sits and how much
+  weight it carries, never by adding a way to get around.
+- **A case study is added to `case-studies.ts` only when its prose is finished**,
+  never as a placeholder. The index renders what exists, the route's `entries()`
+  and the sitemap both derive from the same array, and an index row pointing at
+  an unwritten page is the exact failure this section argues against.
+- **A countable claim gets one home.** `check-content-drift` reads the install
+  count out of `ledger` and the extension count out of `projects`; restating
+  either inside a case study would put a number on the site that no gate is
+  watching. Reference the section that owns it instead.
 
 ## Accessibility
 

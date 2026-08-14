@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { caseStudies, intro } from './case-studies';
 import { credentials, stack } from './credentials';
 import { ledger } from './ledger';
 import { platform } from './platform';
@@ -60,6 +61,7 @@ describe('outbound links', () => {
 		...projects.map((project) => project.href),
 		...contact.links.map((link) => link.href),
 		...ledger.flatMap((entry) => entry.sources.map((source) => source.href)),
+		...caseStudies.flatMap((study) => study.artifacts.map((artifact) => artifact.href)),
 	];
 
 	it('is https everywhere', () => {
@@ -80,6 +82,71 @@ describe('outbound links', () => {
 		expect(owned.length).toBeGreaterThan(0);
 		for (const property of owned) {
 			expect(property.href).toContain(profile.handle);
+		}
+	});
+});
+
+describe('case studies', () => {
+	it('gives every study a unique slug', () => {
+		const slugs = caseStudies.map((study) => study.slug);
+		expect(new Set(slugs).size).toBe(slugs.length);
+	});
+
+	it('keeps every slug URL-safe', () => {
+		// The slug is the permanent public URL. Anything needing encoding would
+		// change shape between the sitemap, the canonical tag and the link.
+		for (const study of caseStudies) {
+			expect(study.slug, `"${study.slug}" is not a bare kebab-case slug`).toMatch(
+				/^[a-z0-9]+(-[a-z0-9]+)*$/,
+			);
+		}
+	});
+
+	it('carries the through-line and a reason to read on every study', () => {
+		// `standfirst` restates the thesis for readers arriving from a link;
+		// `annotation` is what the index shows at the point of choosing. A study
+		// missing either renders a page or an index row that assumes context the
+		// reader does not have.
+		for (const study of caseStudies) {
+			expect(study.standfirst.length, `"${study.slug}" has no standfirst`).toBeGreaterThan(0);
+			expect(study.annotation.length, `"${study.slug}" has no annotation`).toBeGreaterThan(0);
+		}
+	});
+
+	it('gives every study prose and something to inspect', () => {
+		for (const study of caseStudies) {
+			expect(study.sections.length, `"${study.slug}" has no sections`).toBeGreaterThan(0);
+			expect(study.artifacts.length, `"${study.slug}" cites nothing`).toBeGreaterThan(0);
+			for (const section of study.sections) {
+				expect(
+					section.paragraphs.length,
+					`"${study.slug}" section "${section.heading}" is empty`,
+				).toBeGreaterThan(0);
+			}
+		}
+	});
+
+	it('keeps section headings unique within a study', () => {
+		// Headings are the `id` a section is labelled by, and duplicate ids break
+		// the aria-labelledby association as well as the keyed each block.
+		for (const study of caseStudies) {
+			const headings = study.sections.map((section) => section.heading);
+			expect(new Set(headings).size, `"${study.slug}" repeats a heading`).toBe(headings.length);
+		}
+	});
+
+	it('states the through-line in the intro', () => {
+		expect(intro.length).toBeGreaterThan(0);
+	});
+
+	it('is frozen against mutation at runtime', () => {
+		expect(Object.isFrozen(caseStudies)).toBe(true);
+		expect(Object.isFrozen(intro)).toBe(true);
+		for (const study of caseStudies) {
+			expect(Object.isFrozen(study)).toBe(true);
+			for (const section of study.sections) {
+				expect(Object.isFrozen(section)).toBe(true);
+			}
 		}
 	});
 });

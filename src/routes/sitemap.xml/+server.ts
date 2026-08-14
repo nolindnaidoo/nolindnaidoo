@@ -1,3 +1,4 @@
+import { caseStudies } from '$content/case-studies';
 import { SITE_URL } from '$content/site';
 import type { RequestHandler } from './$types';
 
@@ -8,19 +9,31 @@ export const prerender = true;
  * same constant the canonical tag and the structured data use. A hand-written
  * sitemap is one more place for the domain to be wrong after a move.
  *
- * One URL, because there is one page. The value here is not discovery — a
- * single-page site needs no help being crawled — it is that robots.txt has
- * something to point at and the canonical origin is stated in one more place a
- * crawler already looks.
+ * The case-study entries derive from the content module for the same reason the
+ * route's `entries()` does — a study added there appears here without anyone
+ * remembering, and `routes.test.ts` counts against the same source so the two
+ * cannot drift apart silently.
  */
+const paths: readonly string[] = [
+	'/',
+	'/case-studies',
+	...caseStudies.map(({ slug }) => `/case-studies/${slug}`),
+];
+
 export const GET: RequestHandler = () => {
+	const urls = paths
+		.map(
+			(path) => `	<url>
+		<loc>${SITE_URL}${path}</loc>
+		<changefreq>monthly</changefreq>
+		<priority>${path === '/' ? '1.0' : '0.8'}</priority>
+	</url>`,
+		)
+		.join('\n');
+
 	const body = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-	<url>
-		<loc>${SITE_URL}/</loc>
-		<changefreq>monthly</changefreq>
-		<priority>1.0</priority>
-	</url>
+${urls}
 </urlset>
 `;
 

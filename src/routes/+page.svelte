@@ -67,6 +67,7 @@ const nowHeading = `Now — ${platform.company}`;
 		<OpenSource />
 	</Section>
 
+
 	<Section id="credentials" title="Credentials &amp; stack" aside="What I actually run">
 		<Credentials />
 	</Section>

@@ -73,6 +73,22 @@ describe('check-budget', () => {
 		expect(budgetMain(join(scratch, 'never-built'))).toBe(2);
 	});
 
+	it('judges HTML by the largest page, not the sum of every page', () => {
+		// Adding a page must not fail this gate. Five documents that are each
+		// comfortably under the ceiling are five lean pages, however many there
+		// are — a visitor downloads one of them.
+		const html = BUDGETS.find((budget) => budget.label === 'HTML');
+		const each = Math.ceil((html?.ceiling ?? 0) / 2);
+		const pages = Object.fromEntries([0, 1, 2, 3, 4].map((n) => [`p${n}/index.html`, each]));
+		expect(budgetMain(fakeBuild(pages))).toBe(0);
+	});
+
+	it('still fails when a single page is over the ceiling', () => {
+		const html = BUDGETS.find((budget) => budget.label === 'HTML');
+		expect(html).toBeDefined();
+		expect(budgetMain(fakeBuild({ 'fat/index.html': (html?.ceiling ?? 0) + 1 }))).toBe(1);
+	});
+
 	it('covers every asset class the site actually ships', () => {
 		const labels = BUDGETS.map((budget) => budget.label);
 		expect(labels).toEqual(expect.arrayContaining(['client JS', 'CSS', 'fonts', 'HTML']));
