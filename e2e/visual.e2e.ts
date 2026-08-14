@@ -21,6 +21,7 @@ const SECTIONS = [
 	['record', 'section[aria-labelledby="record"]'],
 	['open-source', 'section[aria-labelledby="open-source"]'],
 	['credentials', 'section[aria-labelledby="credentials"]'],
+	['questions', 'section[aria-labelledby="questions"]'],
 	['bar', 'section[aria-labelledby="bar"]'],
 	['elsewhere', 'section[aria-labelledby="elsewhere"]'],
 	['contact', 'footer'],

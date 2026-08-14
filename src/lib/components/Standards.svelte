@@ -10,6 +10,9 @@ import Note from './Note.svelte';
 	<ul>
 		{#each standards as standard (standard.title)}
 			<li>
+				<!-- The aside leads: it names the test in three words, so a reader
+				     scanning only the small type still collects the argument. -->
+				<p class="aside">{standard.aside}</p>
 				<strong>{standard.title}</strong>
 				<span>{standard.detail}</span>
 			</li>
@@ -18,7 +21,7 @@ import Note from './Note.svelte';
 </Band>
 
 <style>
-	/* Two columns as soon as each track can hold a readable measure — seven
+	/* Two columns as soon as each track can hold a readable measure — the
 	   standards scan far faster as a grid than as a single stack. */
 	ul {
 		margin: clamp(30px, 4vw, 48px) 0 0;
@@ -35,6 +38,15 @@ import Note from './Note.svelte';
 		align-content: start;
 		padding: clamp(18px, 2.2vw, 28px) 0;
 		border-bottom: 1px solid var(--hair);
+	}
+
+	.aside {
+		margin: 0;
+		font-family: var(--mono);
+		font-size: 12.5px;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: var(--accent);
 	}
 
 	strong {

@@ -99,7 +99,19 @@ export type CaseStudy = Readonly<{
 	artifacts: readonly Link[];
 }>;
 
+/**
+ * `aside` is the short counter-label that sits with the title, the same
+ * relationship `Section` gives its own heading. It is content rather than
+ * decoration — each one names the test the claim above it has to pass.
+ */
 export type Standard = Readonly<{
 	title: string;
+	aside: string;
 	detail: string;
+}>;
+
+/** One objection, in the reader's words, and the answer to it. */
+export type Question = Readonly<{
+	ask: string;
+	answer: string;
 }>;

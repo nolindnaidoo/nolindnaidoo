@@ -10,6 +10,7 @@ import Hero from '$lib/components/Hero.svelte';
 import Ledger from '$lib/components/Ledger.svelte';
 import OpenSource from '$lib/components/OpenSource.svelte';
 import Platform from '$lib/components/Platform.svelte';
+import Questions from '$lib/components/Questions.svelte';
 import Roster from '$lib/components/Roster.svelte';
 import Section from '$lib/components/Section.svelte';
 import Standards from '$lib/components/Standards.svelte';
@@ -72,6 +73,9 @@ const nowHeading = `Now — ${platform.company}`;
 		<Credentials />
 	</Section>
 
+	<Section id="questions" title="The obvious questions" aside="Answered flat">
+		<Questions />
+	</Section>
 	<Section id="bar" title="The bar" aside="Claims match runs">
 		<Standards />
 	</Section>

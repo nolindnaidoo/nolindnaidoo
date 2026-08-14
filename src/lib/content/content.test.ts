@@ -5,6 +5,7 @@ import { ledger } from './ledger';
 import { platform } from './platform';
 import { contact, elsewhere, profile } from './profile';
 import { projects } from './projects';
+import { closedWorkQuote, QUOTE_ELISION, questions } from './questions';
 import { roster } from './roster';
 import { standards } from './standards';
 
@@ -147,6 +148,39 @@ describe('case studies', () => {
 			for (const section of study.sections) {
 				expect(Object.isFrozen(section)).toBe(true);
 			}
+		}
+	});
+});
+
+describe('the obvious questions', () => {
+	it('asks each question once', () => {
+		const asks = questions.map((question) => question.ask);
+		expect(new Set(asks).size).toBe(asks.length);
+	});
+
+	it('answers every question', () => {
+		for (const question of questions) {
+			expect(question.answer.length, `"${question.ask}" has no answer`).toBeGreaterThan(0);
+		}
+	});
+
+	it('quotes the case study rather than restating it', () => {
+		// The pull quote is an elided quotation of intro[2]. Every unelided run of
+		// it must still appear verbatim in that paragraph, so rewording the essay
+		// and leaving the home page behind fails here instead of shipping two
+		// versions of one passage — the exact drift this codebase keeps hitting.
+		const essay = intro.join(' ');
+		const runs = closedWorkQuote.split(QUOTE_ELISION).map((run) => run.trim());
+		expect(runs.length, 'the quote carries no elision — check the marker').toBeGreaterThan(1);
+		for (const run of runs) {
+			expect(essay, `the quote drifted from the case study: "${run.slice(0, 60)}…"`).toContain(run);
+		}
+	});
+
+	it('is frozen against mutation at runtime', () => {
+		expect(Object.isFrozen(questions)).toBe(true);
+		for (const question of questions) {
+			expect(Object.isFrozen(question)).toBe(true);
 		}
 	});
 });
