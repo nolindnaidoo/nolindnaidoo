@@ -19,14 +19,30 @@ export const profile = Object.freeze({
 		'Automotive · finance · defense · public records',
 	]),
 	thesis: Object.freeze({
-		lead: 'Brought in when it’s big, late, and',
-		emphasis: 'not working',
-		body: `A Fortune 10 trading floor. A DoD communications platform. A statewide records
-			system. A retail program announced four years before anyone could buy anything. The
-			same engagement every time: walk into the hardest room, find the path to shipping,
-			and build the team so it keeps shipping after I’m gone. Three industry firsts came
-			out of those rooms — banking, defense, and automotive retail. Every contract
-			completed. Nearly every one ended with an offer to stay.`,
+		lead: 'I get the call when it’s big, late, and',
+		emphasis: 'broken',
+		/**
+		 * Opens on the heading's second clause. The h2 is capped at 17ch in a
+		 * display face, so the full sentence cannot live there — carrying the tail
+		 * into the body keeps the copy whole without turning the fold into seven
+		 * lines of 92px type.
+		 */
+		body: `When everyone else is stuck, and shipping looks impossible. A Fortune 10 trading
+			floor. A DoD communications platform. A state records system. A retail program that
+			attracted media attention years before consumer access. The assignment was
+			consistent: enter high-stakes environments, resolve complex problems, deliver a
+			final product, and ensure the team could continue development and support
+			independently after I left. My process in each engagement followed a clear
+			sequence: first, I assessed and addressed the immediate technical challenges
+			impeding progress. Next, I created detailed project documentation and implemented
+			structured knowledge transfer sessions, which included technical walkthroughs and
+			hands-on training, to ensure all stakeholders could understand and maintain the
+			delivered solution. Finally, I established feedback mechanisms to monitor the
+			transition and provided guidelines for best practices adoption. This systematic
+			approach consistently enabled teams to adopt best practices and function
+			autonomously. Three industry firsts resulted—banking, defense, and automotive
+			retail. I never left a contract unfinished and was routinely offered permanent
+			roles, but I always progressed to the next challenge.`,
 	}),
 });
 
@@ -36,7 +52,7 @@ export const contact: Readonly<{
 	links: readonly Link[];
 }> = Object.freeze({
 	availability:
-		'Taking one senior contract at a time — production ML, agentic systems, full-stack. Remote, US.',
+		'Taking one senior contract at a time: production ML, agentic systems, full-stack. Remote, US. Open to short-term and long-term contract roles only; not seeking full-time or part-time salaried positions.',
 	primary: Object.freeze({
 		label: 'Let’s talk',
 		href: 'https://www.linkedin.com/in/nolindnaidoo/',
@@ -65,7 +81,7 @@ export const elsewhere: readonly Property[] = Object.freeze([
 	Object.freeze({
 		label: 'GitHub',
 		href: 'https://github.com/nolindnaidoo',
-		note: '@nolindnaidoo · 19 repositories',
+		note: '@nolindnaidoo · 25 repositories',
 	}),
 	Object.freeze({
 		label: 'SplitWinner',

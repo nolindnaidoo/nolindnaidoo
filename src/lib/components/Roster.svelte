@@ -1,9 +1,10 @@
 <script lang="ts">
-import { roster, rosterNote } from '$content/roster';
+import { engagementNote, roster, rosterNote } from '$content/roster';
 import Note from './Note.svelte';
 </script>
 
 <Note text={rosterNote} />
+<Note text={engagementNote} />
 
 <!--
 	Deliberately not links (WCAG 2.4.4 — nine anchors, one destination), and

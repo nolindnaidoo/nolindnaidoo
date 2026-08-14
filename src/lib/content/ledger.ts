@@ -21,7 +21,7 @@ export const ledger: readonly LedgerEntry[] = Object.freeze([
 		attribution: 'General Motors · Shop Click Drive · 2017',
 		detail: Object.freeze([
 			'Chevrolet, GMC, Buick and Cadillac. Franchise law means the manufacturer can never hold the transaction, so the entire purchase brokers through a third party the customer never sees — one seamless flow built around a legal boundary.',
-			'Announced years earlier and still not live when I arrived. The program carried a hundred-person manual QA organization; I wrote the automated suite that gated the release on my own — Selenium, Mocha, Chai, Sinon, SuperTest, Postman — and took Google Page Speed up 90%.',
+			'Announced years earlier and still not live when I arrived. The program had a 100-person manual QA organization; I wrote the automated suite that gated the release on my own — Selenium, Mocha, Chai, Sinon, SuperTest, Postman — and took Google Page Speed up by 90%.',
 		]),
 		sources: Object.freeze([]),
 	}),
@@ -58,7 +58,7 @@ export const ledger: readonly LedgerEntry[] = Object.freeze([
 		attribution: 'Integrated Auction Solutions',
 		detail: Object.freeze([
 			'In a live auction, rounding error decides who wins — thirteen places of precision removed it for every bidder in the country.',
-			'Built the consumer website, the mobile app and the on-site inventory cataloging apps outright — React and React Native on one schema.',
+			'Built the consumer website, the mobile app, and the on-site inventory cataloging apps outright — React and React Native on one schema.',
 		]),
 		sources: Object.freeze([]),
 	}),
@@ -89,7 +89,7 @@ export const ledger: readonly LedgerEntry[] = Object.freeze([
 	}),
 	Object.freeze({
 		id: 'kofile',
-		claim: 'Brought the State of Texas digital records system into ADA and Section 508 compliance',
+		claim: 'Brought the State of Texas digital records system into ADA and Section 508 compliance.',
 		value: 'Statewide',
 		secondary: 'task completion +34%',
 		attribution: 'Kofile Technologies',
@@ -105,7 +105,7 @@ export const ledger: readonly LedgerEntry[] = Object.freeze([
 		secondary: undefined,
 		attribution: 'Poly Lingo / MedLingo → ESO Solutions',
 		detail: Object.freeze([
-			'Texas Fire Chief’s Lone Star Achievement Award · EMS World Top Innovation Award · shipped the iOS product to the App Store',
+			'Texas Fire Chief’s Lone Star Achievement Award · EMS World Top Innovation Award · shipped the iOS product to the App Store.',
 		]),
 		sources: Object.freeze([]),
 	}),

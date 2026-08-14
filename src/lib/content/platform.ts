@@ -19,18 +19,20 @@ export const platform: Readonly<{
 }> = Object.freeze({
 	company: 'SplitWinner',
 	lede: 'The only sports prediction feed with a public audit trail.',
-	body: `I build and operate SplitWinner (formerly OffensiveEdge) — every prediction hashed
-		and Bitcoin-anchored before kickoff into an append-only public ledger, verifiable by
-		anyone with one file of stdlib Python. Built end-to-end by one engineer: data
-		pipelines, model training and serving, the API, the desk terminal, and the
-		verification layer. The differentiator isn't the claims, it's that you never have to
-		trust them.`,
+	body: `I build and operate SplitWinner (formerly OffensiveEdge), a platform where each
+		prediction, before any event begins, is hashed and recorded on the Bitcoin blockchain.
+		This process creates a tamper-proof, append-only ledger that anyone can access and
+		independently verify using a data file and standard Python tools. I developed every
+		part of the platform myself, including the data systems, predictive modeling, API,
+		trading desk interface, and verification tools. The distinguishing feature is that
+		users do not have to trust the operator, as all prediction records are transparently
+		available for public audit at any time.`,
 	systems: Object.freeze([
 		Object.freeze({
 			kind: 'Predictive',
 			name: 'SplitWinner',
 			summary:
-				'Sports prediction for sportsbook trading desks — calibrated, conformal, and anchored to a public immutable ledger before every kickoff. Records get faked in this category; this one can’t be, not even by us.',
+				'Sports prediction for sportsbook trading desks — calibrated, conformal, and anchored to a public tamper-proof ledger before every kickoff. Records get faked in this category; this one can’t be, not even by us.',
 			url: 'https://www.splitwinner.com',
 		}),
 	]),

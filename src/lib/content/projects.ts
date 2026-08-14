@@ -5,7 +5,7 @@ export const projects: readonly Project[] = Object.freeze([
 		name: 'pixelcoords',
 		href: 'https://pixelcoords.dev',
 		summary:
-			'Freeze your screen, mark regions with real shapes, and get pixel-exact coordinates machines can use — versioned JSON, labeled crops, click code, verification with exit codes, self-healing re-location.',
+			'Freeze your screen, mark regions with real shapes, and get pixel-exact coordinates machines can use — versioned JSON, labeled crops, click code, verification with exit codes, self-healing relocation.',
 		tech: 'Rust',
 		facts: Object.freeze(['MIT', 'macOS · Windows · Linux', 'crates.io']),
 	}),

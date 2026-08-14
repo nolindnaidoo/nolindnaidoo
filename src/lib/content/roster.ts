@@ -5,11 +5,20 @@ import type { RosterEntry } from './types';
  * tenures at recognisable names read as churn; read with it, they read as
  * contract engagements that each ended in an offer.
  */
-export const rosterNote = `Every one of these was a contract engagement, by design — principal
+export const rosterNote = `Every one of these was a contract engagement by design: principal
 	consulting delivered through Robert Half. I was brought in for a specific problem, completed
 	the contract in every case, and was offered a permanent role at the end of nearly all of them.
-	I took the next contract instead: the permanent offers were worth less than the contract
+	I took the next contract instead, as the permanent offers were worth less than the contract
 	already paid, and the next problem was the more interesting one.`;
+
+/**
+ * Sits under the roster note rather than in the footer on purpose: a reader who
+ * has just finished the record is the one deciding whether to make contact, and
+ * the footer already carries the availability line and the CTA itself.
+ */
+export const engagementNote = `If you want to engage, the process is simple: get in touch with
+	a description of your challenge. We'll book a quick initial call to clarify scope, timelines,
+	and fit.`;
 
 export const roster: readonly RosterEntry[] = Object.freeze([
 	Object.freeze({ organization: 'RumbleOn', role: 'Principal engineer · creator of Carvis' }),
