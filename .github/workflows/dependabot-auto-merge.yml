@@ -1,0 +1,59 @@
+name: Dependabot auto-merge
+
+# Workflow-driven rather than GitHub's native auto-merge: `main` has no required
+# status checks by design, so native auto-merge would land a pull request before
+# CI had started. This waits for the CI run to conclude and merges only what is
+# safe to merge unattended.
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  merge:
+    if: >-
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.actor.login == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Find the pull request for this run
+        id: pr
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+          REPO: ${{ github.repository }}
+        run: |
+          number=$(gh api "repos/$REPO/commits/$HEAD_SHA/pulls" \
+            --jq '.[] | select(.state == "open") | .number' | head -1)
+          if [ -z "$number" ]; then
+            echo "No open pull request for $HEAD_SHA; nothing to merge."
+            exit 0
+          fi
+          echo "number=$number" >> "$GITHUB_OUTPUT"
+
+      - name: Read the update metadata
+        if: steps.pr.outputs.number
+        id: meta
+        uses: dependabot/fetch-metadata@25dd0e34f4fe68f24cc83900b1fe3fe149efef98 # v3.1.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      # Every dependency here is a devDependency — nothing is shipped to a
+      # visitor — but a major bump can still change generated output, and a
+      # visual-regression baseline shifting is exactly the kind of thing a human
+      # should look at.
+      - name: Merge patch and minor updates
+        if: >-
+          steps.pr.outputs.number &&
+          (steps.meta.outputs.update-type == 'version-update:semver-patch' ||
+           steps.meta.outputs.update-type == 'version-update:semver-minor')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: gh pr merge --squash --repo "$REPO" "${{ steps.pr.outputs.number }}"
