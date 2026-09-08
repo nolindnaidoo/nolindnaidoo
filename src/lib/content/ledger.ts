@@ -23,7 +23,8 @@ import type { LedgerEntry } from './types';
 export const ledger: readonly LedgerEntry[] = Object.freeze([
 	Object.freeze({
 		id: 'general-motors',
-		claim: 'Shipped the first way to buy a car outright on a major manufacturer’s own website',
+		claim:
+			'Shipped Shop Click Drive — the first way to buy a car outright on a major manufacturer’s own website',
 		value: '+90%',
 		secondary: 'page speed',
 		attribution: 'General Motors · Shop Click Drive · 2017',
@@ -36,7 +37,7 @@ export const ledger: readonly LedgerEntry[] = Object.freeze([
 	Object.freeze({
 		id: 'l3harris',
 		claim:
-			'Architected the first Node.js application ever put into service in the Department of Defense',
+			'Architected the first Node.js application put into service in the Department of Defense',
 		value: '0 → 80%',
 		secondary: 'test coverage',
 		attribution: 'L3Harris Technologies · Communication Systems · 2016',
@@ -48,12 +49,12 @@ export const ledger: readonly LedgerEntry[] = Object.freeze([
 	Object.freeze({
 		id: 'jpmorgan',
 		claim:
-			'Pioneered the first single-page application in banking — chase.com and the Chase mobile app',
+			'One of six engineers who rebuilt chase.com and the Chase mobile app as a single-page application',
 		value: '−30%',
 		secondary: 'codebase',
 		attribution: 'JPMorgan Chase & Co. · CMH1 flagship team · 2014',
 		detail: Object.freeze([
-			'One of six engineers on the flagship team at a Fortune 10 bank. Built on Ember, when a bank shipping a single-page app at that scale was still unproven · jQuery fully removed · codebase down 30% · ten minutes off every build',
+			'Built on Ember at a Fortune 10 bank in 2014, when a bank shipping a single-page app at that scale was still unproven · jQuery fully removed · codebase down 30% · ten minutes off every build',
 		]),
 		sources: Object.freeze([]),
 	}),
@@ -97,7 +98,8 @@ export const ledger: readonly LedgerEntry[] = Object.freeze([
 	}),
 	Object.freeze({
 		id: 'kofile',
-		claim: 'Brought the State of Texas digital records system into ADA and Section 508 compliance.',
+		claim:
+			'Led the accessibility work that brought the State of Texas digital records system into ADA and Section 508 compliance',
 		value: 'Statewide',
 		secondary: 'task completion +34%',
 		attribution: 'Kofile Technologies',
