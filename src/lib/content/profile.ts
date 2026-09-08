@@ -17,6 +17,21 @@ export const profile = Object.freeze({
 		'Platform & full-stack architecture',
 		'Automotive · finance · defense · public records',
 	]),
+	thesis: Object.freeze({
+		lead: 'The failure is',
+		emphasis: 'silent',
+		/**
+		 * One short paragraph, not an essay. This section's job is to make the three
+		 * long-form pieces below it inevitable rather than optional, so it states the
+		 * problem all three are about and stops. It is the home-page compression of
+		 * the story told in full in `case-studies.ts` `intro`.
+		 */
+		body: `A value that was never knowable leaks into a model and accuracy climbs. A tool
+			answers confidently with the wrong number and the pipeline stays green. A published
+			record gets edited and looks identical from the outside. Nothing fails, nothing alerts,
+			and everything built on top of it is resting on nothing. Three write-ups, one problem at
+			three layers, and what I built so each of them has something that catches it.`,
+	}),
 });
 
 export const contact: Readonly<{

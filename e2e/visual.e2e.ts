@@ -16,7 +16,7 @@ import { expect, test } from '@playwright/test';
 
 const SECTIONS = [
 	['hero', 'header'],
-	['studies', 'section[aria-labelledby="studies"]'],
+	['thesis', 'section[aria-labelledby="thesis-heading"]'],
 	['platform', 'section[aria-labelledby="now"]'],
 	['record', 'section[aria-labelledby="record"]'],
 	['open-source', 'section[aria-labelledby="open-source"]'],
