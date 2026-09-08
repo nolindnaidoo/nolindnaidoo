@@ -21,23 +21,29 @@ export const profile = Object.freeze({
 		lead: 'I raise the',
 		emphasis: 'floor',
 		/**
-		 * Rendered as the section's only paragraph, so this has to hold together as
-		 * one continuous read. The heading makes the claim; the body has to pay it
-		 * off with mechanisms rather than restate it — the environments are evidence
-		 * for the claim, not the subject of it.
+		 * Three beats, not one block: where the work happened, what outlasted me,
+		 * and how I take an assignment. It was a single paragraph of eight sentences
+		 * and read as a wall — the heading makes the claim and the body has to pay it
+		 * off with mechanisms rather than restate it, which needs air to land.
+		 *
+		 * Rendered beside the heading rather than under it, so the paragraphs are
+		 * also what fills the column the display type would otherwise leave empty.
 		 */
-		body: `I have built inside enterprises with a hundred stakeholders and inside startups with
-			none — a Fortune 10 trading floor, a DoD communications platform, a state records system, a
-			retail program that drew media attention years before consumers could touch it. Three of
-			those were among the first of their kind in banking, defense, and automotive retail. None of
-			it was a solo act, and the parts that lasted were never the parts I typed. A coverage floor
-			holds after I stop watching. A component library with every property documented makes the
-			next person faster than I was. An agent guide enforced in CI keeps the bar in place whether
-			or not anyone is paying attention that day. I would rather make eight engineers faster than
-			out-ship them alone. Give me a roadmap and I will execute against it; give me a blank page
-			and I will come back with the roadmap, a working prototype, and the reasoning behind both.
-			Either way the measure is the same: what the team can do afterward that it could not do
-			before.`,
+		body: Object.freeze([
+			`I have built inside enterprises with a hundred stakeholders and inside startups with
+				none — a Fortune 10 trading floor, a DoD communications platform, a state records
+				system, a retail program that drew media attention years before consumers could touch
+				it. Three of those were among the first of their kind in banking, defense, and
+				automotive retail.`,
+			`None of it was a solo act, and the parts that lasted were never the parts I typed. A
+				coverage floor holds after I stop watching. A component library with every property
+				documented makes the next person faster than I was. An agent guide enforced in CI keeps
+				the standard in place whether or not anyone is paying attention that day. I would rather
+				make eight engineers faster than out-ship them alone.`,
+			`Give me a roadmap and I will execute against it; give me a blank page and I will come
+				back with the roadmap, a working prototype, and the reasoning behind both. Either way
+				the measure is the same: what the team can do afterward that it could not do before.`,
+		]),
 	}),
 });
 
