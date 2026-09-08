@@ -52,11 +52,21 @@ const nowHeading = `Now — ${platform.company}`;
 <main id="main" tabindex="-1">
 	<Thesis />
 
-	<Section id="now" title={nowHeading} aside="Current work">
+	<Section
+		id="now"
+		title={nowHeading}
+		aside="Current work"
+		study={{ slug: 'audit-trail', label: 'How the ledger works' }}
+	>
 		<Platform />
 	</Section>
 
-	<Section id="open-source" title="Open source" aside="MIT · in public">
+	<Section
+		id="open-source"
+		title="Open source"
+		aside="MIT · in public"
+		study={{ slug: 'le-tools', label: 'How the suite was built' }}
+	>
 		<OpenSource />
 	</Section>
 

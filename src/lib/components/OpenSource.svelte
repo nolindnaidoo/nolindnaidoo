@@ -34,12 +34,6 @@ import Band from './Band.svelte';
 			</li>
 		{/each}
 	</ul>
-
-	<!-- The route existed and nothing pointed at it. The long version is where the
-	     reasoning lives; the cards above are only what shipped. -->
-	<p class="long-version">
-		<a href="/case-studies">Read the long version<span aria-hidden="true">&nbsp;→</span></a>
-	</p>
 </Band>
 
 <style>
@@ -129,21 +123,4 @@ import Band from './Band.svelte';
 		color: var(--accent);
 	}
 
-	.long-version {
-		margin: clamp(28px, 4vw, 40px) 0 0;
-		font-family: var(--mono);
-		font-size: 13px;
-		letter-spacing: 0.01em;
-	}
-
-	.long-version a {
-		color: var(--ink);
-		text-decoration-thickness: 1px;
-		text-underline-offset: 4px;
-	}
-
-	.long-version a:hover,
-	.long-version a:focus-visible {
-		color: var(--accent, var(--ink));
-	}
 </style>

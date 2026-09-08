@@ -182,4 +182,118 @@ export const caseStudies: readonly CaseStudy[] = Object.freeze([
 			Object.freeze({ label: 'GitHub', href: 'https://github.com/nolindnaidoo' }),
 		]),
 	}),
+	Object.freeze({
+		slug: 'audit-trail',
+		title: 'The public audit trail',
+		annotation:
+			'A prediction record nobody has to trust, including me. Two independent roots, a verifier that needs nothing from me, and the three disclosures the alpha cost.',
+		standfirst:
+			'Every operation in this category publishes a record and none of them are checkable. This one was built so that a reader who assumes I am lying can prove it, without an account and without my cooperation.',
+		sections: Object.freeze([
+			Object.freeze({
+				heading: 'Everyone in this category publishes a record',
+				paragraphs: Object.freeze([
+					'Every operation that sells sports predictions publishes a record, and there is no reason to believe any of them.',
+					'There are two ways to lie about one and neither looks like lying. The first is to edit the history: a schema change, a corrected row, a cleanup of something that was obviously wrong. From the outside, a maintenance window and a rewrite are the same event. The second is to select what gets published — post the plays that won, and simply never mention the ones that did not. Every number in that record is true. The set is the lie.',
+					'The second is the common one, and it is the more effective, because nothing was falsified and no individual claim is checkable as false. A record that shows only what its author chose to show is not evidence. It is marketing with arithmetic in it.',
+					'Third-party verification services narrow the first problem and leave the second untouched: an operator stays free to submit some plays and not others, and a verified record of a chosen subset is a verified subset.',
+					'I could not find a way to prove I was not doing either of those things. Promising is not proving, and anyone can promise. So the requirement became making it impossible rather than saying it was not happening.',
+				]),
+			}),
+			Object.freeze({
+				heading: 'The test was a desk, not a bettor',
+				paragraphs: Object.freeze([
+					'The bar I set was not what a customer would accept. It was what a trading desk would accept from a vendor it had every reason to distrust.',
+					'A desk does not ask whether your numbers look good. It asks when the number existed, whether the timestamp is yours to move, what happens to your record on a day you would rather not discuss, and who has to cooperate for the check to work. If the answer to that last one is you, the check is not a check.',
+					'That rules out almost every design. A database I control proves nothing. A signature I issue proves nothing about time. A git commit proves nothing either, because history can be rewritten and force-pushed, and the platform hosting it is choosing timestamps on my behalf.',
+					'What survives is narrow: a commitment published into a system I cannot reach, before the outcome is known.',
+				]),
+			}),
+			Object.freeze({
+				heading: 'Two roots, neither of them mine',
+				paragraphs: Object.freeze([
+					'Every prediction is hashed into an append-only ledger the moment it is made. One row per prediction, enforced by a uniqueness constraint; UPDATE and DELETE rejected by a database trigger rather than by policy.',
+					'Each day, the day’s rows are sealed into a single manifest and attested into two independent roots before the games settle: a Bitcoin timestamp through OpenTimestamps, and a signed entry in the Sigstore Rekor transparency log.',
+					'Two rather than one, because they fail in unrelated ways and prove different things. Bitcoin gives a block height that a prediction demonstrably preceded, and no outage takes that back — a confirmed proof lives in the chain, not in a calendar server. Rekor gives attribution: the entry carries a signature over the anchor’s bytes by a key whose public half is published in the repository and kept there forever, including superseded ones, so historical entries stay checkable. A timestamp alone tells you something existed. It does not tell you whose it was.',
+					'Neither root can be checked away by the failure of the other, and neither is a fallback for the other. Both are produced for every anchor, and if either becomes unreachable, publication continues and the affected anchors carry one root until the other returns — which is itself a disclosable event with a stated deadline.',
+					'Each anchor also commits to the previous anchor’s exact file bytes. The sequence of days is therefore tamper-evident as a sequence, not just day by day. A missing day is visible. It can be explained, but it cannot be erased.',
+				]),
+			}),
+			Object.freeze({
+				heading: 'Publishing the commitment without publishing the picks',
+				paragraphs: Object.freeze([
+					'A prediction has commercial value right up until the game starts, which is exactly the window in which it has to be published to prove it existed. Publishing the picks to prove they existed gives away the thing being sold.',
+					'So the day’s manifest is sealed under a fresh 32-byte salt with HMAC-SHA256. The published manifest commits irrevocably to the exact set of rows, and the salt is what prevents anyone reconstructing the day’s picks from it by working through the possibilities. Customers receive the salt under contract and can recompute the entire day themselves.',
+					'There is a second mode that needs no salt at all: given the full rows, it recomputes each row hash directly. Anyone holding the data can check the data, and the operator is not in the loop for either path.',
+				]),
+			}),
+			Object.freeze({
+				heading: 'What it proves, and the list of what it does not',
+				paragraphs: Object.freeze([
+					'The methodology document states five properties: existence in time under two independent roots, attribution to a published key, integrity of every row and every day, continuity across the chain, and the binding of each published performance report into the following day’s anchor so a metric inherits the timestamp of the predictions it describes.',
+					'Immediately after that list is a second one, headed what is not proven. It says the ledger does not prove the predictions are good — it is provenance, not endorsement. It says the ledger discloses nothing about how predictions are made, and that training lineage never appears in a row.',
+					'The second list is the one that does the work. A document that only enumerates its strengths has told you who wrote it.',
+				]),
+			}),
+			Object.freeze({
+				heading: 'The verifier is the product',
+				paragraphs: Object.freeze([
+					'The check is one file: 560 lines of Python. Five of its six modes are pure standard library and need no network, no account, no key and no API. Clone the repository and run it.',
+					'Golden vectors ship alongside it, so the first thing you can do is verify the verifier — check that it produces known answers on known inputs before trusting what it says about anything else. The chain mode walks the previous-anchor links. The Bitcoin mode is the only one with a dependency, a pinned OpenTimestamps client, and it is there because that check is the binding one.',
+					'This is the part the whole design exists to reach. Nothing in the trust chain routes through me, including the tool you use to check it.',
+				]),
+			}),
+			Object.freeze({
+				heading: 'Disclosure is the other half',
+				paragraphs: Object.freeze([
+					'A tamper-evident chain says nothing about the days that never appear in it. Integrity and completeness are different properties, and only one of them can be enforced with a hash.',
+					'So the protocol names, in advance and in writing, what has to be disclosed and by when. Seven days from detection, append-only, never rewritten — an error in a disclosure is corrected by appending a follow-up, not by force-pushing a better version of the past.',
+					'The thresholds are specific rather than aspirational: an anchor landing more than 24 hours after the activity it covers; an anchor carrying only one of its two attestations for more than 72 hours; a signing key rotated or suspected to have left custody; any committed artifact changing after commit; a salt leaving custody outside a contract; a verifier release that alters the meaning of any past verification.',
+					'Writing the thresholds down before anything goes wrong is the entire trick. Afterwards, every threshold is negotiable, and the person doing the negotiating is the one who needs it moved.',
+				]),
+			}),
+			Object.freeze({
+				heading: 'What the alpha cost me to admit',
+				paragraphs: Object.freeze([
+					'The public alpha ran 58 anchored days and produced three disclosures. It is sealed and preserved verbatim, incidents included, under the product’s previous name.',
+					'The first: two predictions got duplicate intermediate rows because a slate listed the same game twice inside one batch. Both were classified as skips, neither was a bet, no customer saw either, and no published figure moved. The superseded rows are still in the ledger and always will be, because removing them is precisely the operation the ledger exists to make impossible.',
+					'The second: an ingestion fault stopped one sport’s inputs refreshing for four days, and on the last of those the morning run did not execute at all, so that day has no anchor. The gap is stated rather than smoothed. The predictions a healthy pipeline would have produced were not generated afterwards, because backfilling them would have violated the live-timing guarantee the whole system exists to protect. They are recorded as never having existed, which is what they are.',
+					'The third is still open. That sport has been offline since 25 June 2026 for a hardware migration, with no estimated restart date, and the disclosure says exactly that — including that a follow-up will be appended when it resumes.',
+					'None of the three had to be published. Two were found by my own routine review and nobody else was looking; the third is a decision rather than a fault. Publishing them is the only thing that makes the other days worth anything, because a record with no bad days in it is the exact shape of a record that has been curated.',
+				]),
+			}),
+			Object.freeze({
+				heading: 'One operator, stated as a limitation',
+				paragraphs: Object.freeze([
+					'The operations document opens by saying the ledger is run by a single operator, that this is a real limitation, and that the mitigations are disclosed rather than hidden.',
+					'It then names the problem precisely. The operator holds the database service role, the publishing credential and the salt store. Somebody with those keys could disable the triggers, rewrite rows and re-enable them.',
+					'And then it names what the operator cannot rewrite: Bitcoin attestations already published, the anchor chain as it exists in customers’ clones, and the disclosure record itself. Anchoring is automated rather than ceremonial, so publication does not wait on a person remembering.',
+					'That is what a threat model looks like when it is honest. Assume the operator is the adversary — because to a desk evaluating a vendor, the operator always is — then state which properties survive that assumption and which ones simply do not.',
+				]),
+			}),
+			Object.freeze({
+				heading: 'Where it actually stands',
+				paragraphs: Object.freeze([
+					'The specification, the verifier, the key history, the payload schemas and the disclosure policy are published now. The alpha record is sealed at 58 anchors with its three incidents attached.',
+					'The official chain opens with its first anchor, one sport first and the others joining as their seasons begin. The gap between the alpha and the official ledger is written into the README as a fact rather than smoothed into a continuous-sounding history.',
+					'I am stating that plainly for the same reason everything else here is built the way it is. Whether a chain is live is a fact about the world at a moment in time, and it is false right up until it is true. The way to make that claim is to publish the thing and let somebody check, which is what the next paragraph is for.',
+				]),
+			}),
+			Object.freeze({
+				heading: 'Check it yourself',
+				paragraphs: Object.freeze([
+					'Clone the repository, run the self-test against the golden vectors, then walk the chain. Neither needs a network connection or anything from me. Read the methodology, then read the list of what it does not prove. Read the incidents, including the one that is still open.',
+					'If any of it fails, that is a finding you can publish, and I would rather you found it than that nobody looked.',
+				]),
+			}),
+		]),
+		artifacts: Object.freeze([
+			Object.freeze({ label: 'The ledger', href: 'https://github.com/SplitWinner/audit_trail' }),
+			Object.freeze({
+				label: 'The sealed alpha record',
+				href: 'https://github.com/SplitWinner/audit_trail_alpha',
+			}),
+			Object.freeze({ label: 'splitwinner.com', href: 'https://www.splitwinner.com' }),
+		]),
+	}),
 ]);
