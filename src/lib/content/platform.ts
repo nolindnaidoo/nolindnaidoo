@@ -50,7 +50,7 @@ export const platform: Readonly<{
 		Object.freeze({
 			label: 'MLOps',
 			detail:
-				'Daily training-to-serving pipelines behind a signed, versioned API — parallel model deployment, automated versioning, sub-second inference.',
+				'Daily serving behind a signed, versioned API, with in-season retraining on a weekly-minimum cadence — parallel model deployment, automated versioning, sub-second inference.',
 		}),
 		Object.freeze({
 			label: 'Product',
