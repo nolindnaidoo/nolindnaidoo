@@ -4,9 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
-  # A push made with GITHUB_TOKEN does not trigger workflows, so the commit that
-  # lands regenerated baselines never gets a CI run of its own. This makes the
-  # chain re-runnable without an empty commit.
+  # Re-runnable without an empty commit.
   workflow_dispatch:
 
 permissions:
@@ -54,7 +52,7 @@ jobs:
       - name: Install Playwright browser
         run: bunx playwright install chromium --with-deps
 
-      - name: Accessibility, end-to-end & visual
+      - name: Accessibility & end-to-end
         run: bun run e2e
 
       - name: Upload Playwright report

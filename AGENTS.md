@@ -67,7 +67,7 @@ would race the Vercel build. Vercel is the only deploy path.
   100 columns, matching the `*-le` family. `bun run lint` is the arbiter;
   `bun run format` fixes.
 - **Vitest** for unit tests (v8 coverage, thresholds enforced), **Playwright +
-  axe-core** for a11y, end-to-end, and visual regression.
+  axe-core** for a11y and end-to-end. No visual regression — see below.
 - **Two vendored faces, no font CDN.** Geist Variable (subset, full
   100–900 axis) for display and JetBrains Mono for data, both preloaded. The
   axis is what makes the hero's scroll-driven weight interpolate rather than
@@ -98,8 +98,8 @@ Two things are excluded on purpose, and neither is a gap:
 - **`.svelte` components.** They carry no logic — they render frozen content —
   so a component coverage number measures markup, not behaviour, and produces a
   figure that gets gamed rather than a gate that catches anything. Their
-  assurance is the Playwright suite, which covers every section with a visual
-  baseline plus the keyboard, landmark and heading assertions.
+  assurance is the Playwright suite: every section is reached by the keyboard,
+  landmark and heading assertions, and axe runs over each page in both schemes.
 - **Process entry points** (`if (import.meta.main)`) and `commit-lint.js`.
   Unreachable when a test imports the module, and `commit-lint` is exercised as
   a real binary through its exit codes by `commit-lint.test.ts` — v8 coverage of
@@ -320,10 +320,10 @@ those, not a person.
   status checks by design, so native auto-merge would land a pull request before
   CI started. `dependabot-auto-merge.yml` waits for the CI run to conclude and
   merges only patch and minor updates; a major can change generated output, and
-  a visual baseline shifting is something a human should see.
-- **`@playwright/test` is pinned exactly**, no caret. Visual baselines are
-  rendering-sensitive, and a minor bump can shift text metrics and fail them for
-  reasons that say nothing about the code.
+  that is something a human should see.
+- **`@playwright/test` is pinned exactly**, no caret. It drives the gate that
+  runs longest and fails least legibly, and a runner is not the place to find
+  out that a minor bump changed how the browser launches.
 
 ## Security posture
 
@@ -343,13 +343,31 @@ those, not a person.
   dismissed. A queue of permanent false positives is how a security tool stops
   being read.
 
-## Visual baselines
+## Why there is no visual regression suite
 
-Playwright suffixes screenshots by platform, so the macOS set generated locally
-cannot satisfy the Linux runner. Dispatch the **Update visual baselines**
-workflow once after adding or changing a visual test; it regenerates on the
-runner and commits. Until Linux baselines exist, the visual specs fail in CI —
-which is accurate, not a bug to work around.
+There was one, and it made every other gate worthless.
+
+Playwright suffixes screenshots by platform, so a macOS baseline cannot satisfy
+a Linux runner — the same page comes back at a different height because the text
+rasterizes differently. This file used to say the resulting CI failures were
+"accurate, not a bug to work around." What that produced was **eight consecutive
+red builds** in which lint, typecheck, coverage, the build, the payload budget
+and the content drift check all passed and nobody could see it. A pipeline that
+is always red reports nothing.
+
+The local cost had the same shape. Every copy change moves thousands of pixels,
+so the suite failed on content edits — the most frequent change to this repo —
+and the only response available was to regenerate and commit the diff unread. A
+gate whose output is always rubber-stamped has stopped being a gate.
+
+The regression it existed to catch is named in its own docstring: the display
+face silently falling back to a system font. That has a direct assertion in
+`page.e2e.ts`, which reads the computed font family and fails on a fallback —
+a test, rather than a picture of one. Composition is covered by the heading,
+landmark, keyboard and 320px-reflow assertions, and by the CSS budget.
+
+If it returns, it returns generated on the runner inside the job that asserts
+against it, never committed from a laptop.
 
 ## Agent instruction files
 
