@@ -21,28 +21,36 @@ export const profile = Object.freeze({
 		lead: 'I raise the',
 		emphasis: 'floor',
 		/**
-		 * Three beats, not one block: where the work happened, what outlasted me,
-		 * and how I take an assignment. It was a single paragraph of eight sentences
-		 * and read as a wall — the heading makes the claim and the body has to pay it
-		 * off with mechanisms rather than restate it, which needs air to land.
+		 * Three beats: where the work happened, the habit the work has in common,
+		 * and why it is worth something on a team. The heading makes the claim and
+		 * the body has to pay it off with mechanisms — the three named here are the
+		 * three case studies in one sentence each, so the section is a promise the
+		 * rest of the page keeps rather than a summary of it.
+		 *
+		 * It read as a manager's paragraph before this: none of it was a solo act,
+		 * the parts that lasted were never the parts I typed, rather make eight
+		 * engineers faster. That argues against every case study on the site, which
+		 * is an engineer finding his own leaks in his own apparatus.
 		 *
 		 * Rendered beside the heading rather than under it, so the paragraphs are
 		 * also what fills the column the display type would otherwise leave empty.
 		 */
 		body: Object.freeze([
-			`I have built inside enterprises with a hundred stakeholders and inside startups with
-				none — a Fortune 10 trading floor, a DoD communications platform, a state records
-				system, a retail program that drew media attention years before consumers could touch
-				it. Three of those were among the first of their kind in banking, defense, and
-				automotive retail.`,
-			`None of it was a solo act, and the parts that lasted were never the parts I typed. A
-				coverage floor holds after I stop watching. A component library with every property
-				documented makes the next person faster than I was. An agent guide enforced in CI keeps
-				the standard in place whether or not anyone is paying attention that day. I would rather
-				make eight engineers faster than out-ship them alone.`,
-			`Give me a roadmap and I will execute against it; give me a blank page and I will come
-				back with the roadmap, a working prototype, and the reasoning behind both. Either way
-				the measure is the same: what the team can do afterward that it could not do before.`,
+			`A Fortune 10 trading floor. A DoD communications platform. A state records system. A
+				retail program that drew media attention years before consumers could touch it. Three of
+				those were among the first of their kind in banking, defense and automotive retail —
+				built inside enterprises with a hundred stakeholders, and inside startups with none.`,
+			`What the work has in common is that I build the thing that catches me. A coverage floor
+				that fails the build after I stop watching. A generator that fuzzes two implementations
+				of one tool against each other, because I wrote it twice and trusted myself the second
+				time. A ledger anchored into Bitcoin and a public transparency log so no prediction can
+				be revised after the outcome, including by me — carrying, permanently, the day I broke
+				my own append-only rule.`,
+			`That is not caution. It is the only way to move quickly on systems where the
+				characteristic failure improves your numbers: a leak raises accuracy, a check that never
+				runs reports a pass. I have caught myself twice, both times weeks late, both times
+				because something I built earlier could see it. Those habits come from working where
+				nobody else was checking. They are worth more somewhere someone is.`,
 		]),
 	}),
 });
