@@ -37,7 +37,7 @@ export const intro: readonly string[] = Object.freeze([
 export const caseStudies: readonly CaseStudy[] = Object.freeze([
 	Object.freeze({
 		slug: 'le-tools',
-		title: 'Limited Edition Dev Tools',
+		title: 'Less magic, more factory',
 		// No install figure here on purpose. The count lives in `ledger` and
 		// `projects`, which `check-content-drift` reads and verifies against the
 		// registries; restating it in a third place would put a number on the site
