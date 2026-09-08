@@ -6,6 +6,14 @@ import type { LedgerEntry } from './types';
  * means something anchored to when it was hard, and a bare superlative invites
  * a reader to go disprove it.
  *
+ * `value` is a measurement, never a superlative. The claim is where a "first"
+ * belongs, because prose can qualify it; the value column renders right-aligned
+ * mono with tabular numerals, which is the shape a reader reads as measured
+ * data. Three rows used to repeat their superlative there — said once in the
+ * headline where it could be scoped, and again in a slot that made it look
+ * counted. What goes there now is a measurement or a checkable fact — a scope,
+ * an outcome — never a claim of primacy.
+ *
  * One entry per engagement. A second achievement from the same client belongs
  * in that entry's `detail`, never as another row; `content.test.ts` enforces it.
  *
@@ -16,8 +24,8 @@ export const ledger: readonly LedgerEntry[] = Object.freeze([
 	Object.freeze({
 		id: 'general-motors',
 		claim: 'Shipped the first way to buy a car outright on a major manufacturer’s own website',
-		value: 'First to market',
-		secondary: 'in production, 2017',
+		value: '+90%',
+		secondary: 'page speed',
 		attribution: 'General Motors · Shop Click Drive · 2017',
 		detail: Object.freeze([
 			'Chevrolet, GMC, Buick and Cadillac. Franchise law means the manufacturer can never hold the transaction, so the entire purchase brokers through a third party the customer never sees — one seamless flow built around a legal boundary.',
@@ -29,8 +37,8 @@ export const ledger: readonly LedgerEntry[] = Object.freeze([
 		id: 'l3harris',
 		claim:
 			'Architected the first Node.js application ever put into service in the Department of Defense',
-		value: 'First in DoD',
-		secondary: undefined,
+		value: '0 → 80%',
+		secondary: 'test coverage',
 		attribution: 'L3Harris Technologies · Communication Systems · 2016',
 		detail: Object.freeze([
 			'Node.js and React into defense service, on a stack that had never cleared it. Moved 40 remote engineers off strictly-typed C# · test coverage 0 → 80% · React localization framework adopted enterprise-wide',
@@ -41,8 +49,8 @@ export const ledger: readonly LedgerEntry[] = Object.freeze([
 		id: 'jpmorgan',
 		claim:
 			'Pioneered the first single-page application in banking — chase.com and the Chase mobile app',
-		value: 'First in banking',
-		secondary: 'top 6 of a 300+ division',
+		value: '−30%',
+		secondary: 'codebase',
 		attribution: 'JPMorgan Chase & Co. · CMH1 flagship team · 2014',
 		detail: Object.freeze([
 			'One of six engineers on the flagship team at a Fortune 10 bank. Built on Ember, when a bank shipping a single-page app at that scale was still unproven · jQuery fully removed · codebase down 30% · ten minutes off every build',
