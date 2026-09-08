@@ -11,7 +11,7 @@ import Platform from '$lib/components/Platform.svelte';
 import Roster from '$lib/components/Roster.svelte';
 import Section from '$lib/components/Section.svelte';
 import Standards from '$lib/components/Standards.svelte';
-import Thesis from '$lib/components/Thesis.svelte';
+import Studies from '$lib/components/Studies.svelte';
 import { personSchemaTag } from '$lib/seo/person';
 
 // Computed above, rendered below: the head block holds no expressions beyond
@@ -50,7 +50,9 @@ const nowHeading = `Now — ${platform.company}`;
      moves the scroll position but not focus in several browsers, so the next
      Tab returns to the top of the document and the skip achieves nothing. -->
 <main id="main" tabindex="-1">
-	<Thesis />
+	<Section id="studies" title="Case studies" aside="The long version">
+		<Studies />
+	</Section>
 
 	<Section id="now" title={nowHeading} aside="Current work">
 		<Platform />

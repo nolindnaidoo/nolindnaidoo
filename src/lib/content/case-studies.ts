@@ -34,6 +34,15 @@ export const intro: readonly string[] = Object.freeze([
 	'I have never written about any of this publicly. That was deliberate — I wanted the work standing on its own before I said anything about it. This is the long version.',
 ]);
 
+/**
+ * The home page's one-paragraph frame for the studies. Each clause is one of
+ * them — the leak is the validation piece, the confident wrong answer is the
+ * tools piece, the edited record is the ledger — so the rows below read as the
+ * evidence for the sentence rather than as a menu.
+ */
+export const lede =
+	'A value that was never knowable leaks into a model and accuracy climbs. A tool answers confidently with the wrong number and the pipeline stays green. A published record gets edited and looks identical from the outside. Nothing fails, nothing alerts, and everything built on top of it is resting on nothing. Three write-ups, one problem at three layers, and what I built so each of them has something that catches it.';
+
 export const caseStudies: readonly CaseStudy[] = Object.freeze([
 	Object.freeze({
 		slug: 'le-tools',
