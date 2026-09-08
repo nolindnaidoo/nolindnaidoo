@@ -11,10 +11,15 @@ import type { CaseStudy } from './types';
  * compressed in its own `standfirst`, because a reader arriving from a link
  * never sees this page.
  *
- * One study per shipped record. A study is added here when its prose is
- * finished, never as a placeholder — the index renders what exists, and an
- * entry linking to a page that isn't written is the failure this whole section
- * argues against.
+ * A study is added here when its prose is finished, never as a placeholder —
+ * the index renders what exists, and an entry linking to a page that isn't
+ * written is the failure this whole section argues against.
+ *
+ * It used to say one study per *shipped* record. `model-zero` is the deliberate
+ * exception: the product is half built and the study says which half, in the
+ * same words its own specification uses. The rule that replaced it is that a
+ * study about unfinished work states what is unfinished inside itself, rather
+ * than leaving a reader to find out by trying to use the thing.
  */
 export const intro: readonly string[] = Object.freeze([
 	'I spent fifteen years building things for other people. Banks, defense, automotive retail, healthcare, state records. Some of it was first of its kind, some of it won awards, and one of it was acquired.',
@@ -36,12 +41,13 @@ export const intro: readonly string[] = Object.freeze([
 
 /**
  * The home page's one-paragraph frame for the studies. Each clause is one of
- * them — the leak is the validation piece, the confident wrong answer is the
- * tools piece, the edited record is the ledger — so the rows below read as the
- * evidence for the sentence rather than as a menu.
+ * them, in the order they are rendered — the confident wrong answer is the
+ * tools piece, the lost zeros are Model Zero, the leak is the validation piece,
+ * the edited record is the ledger — so the rows below read as the evidence for
+ * the sentence rather than as a menu. A study added here needs a clause.
  */
 export const lede =
-	'A value that was never knowable leaks into a model and accuracy climbs. A tool answers confidently with the wrong number and the pipeline stays green. A published record gets edited and looks identical from the outside. Nothing fails, nothing alerts, and everything built on top of it is resting on nothing. Three write-ups, one problem at three layers, and what I built so each of them has something that catches it.';
+	'A tool answers confidently with the wrong number and the pipeline stays green. A column loses its leading zeros on the way in and no later step recovers them. A value that was never knowable leaks into a model and accuracy climbs. A published record gets edited and looks identical from the outside. Nothing fails, nothing alerts, and everything built on top of it is resting on nothing. Four write-ups, one problem at four layers, and what I built so each of them has something that catches it.';
 
 export const caseStudies: readonly CaseStudy[] = Object.freeze([
 	Object.freeze({
@@ -190,6 +196,125 @@ export const caseStudies: readonly CaseStudy[] = Object.freeze([
 				href: 'https://open-vsx.org/namespace/OffensiveEdge',
 			}),
 			Object.freeze({ label: 'GitHub', href: 'https://github.com/nolindnaidoo' }),
+		]),
+	}),
+	Object.freeze({
+		slug: 'model-zero',
+		title: 'Built to refuse',
+		annotation:
+			'Managed tools hand you a high number on a leaked dataset and call it a result. Model Zero is the answer to that: a data tool designed around refusing to guess, and the honest accounting of which half of it is built.',
+		standfirst:
+			'A tool that answers confidently with the wrong number is worse than one that stops. This is the product I built on that principle, why the loop it replaces is the reason nobody checks their data, and what is not finished yet.',
+		sections: Object.freeze([
+			Object.freeze({
+				heading: 'The tool told me I was right',
+				paragraphs: Object.freeze([
+					'A managed AutoML service will read your dataset, fit something cheap, and hand back an accuracy figure. If your data has a leak in it, that figure is high. It is high *because* of the leak, and nothing in the interface says so.',
+					'That is not a bug in their code. Their number is correct for what it measured. The problem is that it is presented as a result rather than as a claim that could be wrong, and there is no provenance on the split it was measured against — so a reader has no way to ask the one question that matters, which is whether the thing being measured was knowable at the time it claims to have been known.',
+					'It is a tool that lies to you safely. Nothing errors. Nothing warns. You get a good number early, you believe it, and every decision after that rests on it. I have described this failure shape elsewhere on this site at three other layers. This is where it starts, because the data is upstream of all of them.',
+					'What made me angry rather than merely careful is that the number arrives at the exact moment a person is least equipped to doubt it — before they have built anything, when the tool is supposed to be telling them whether to bother.',
+				]),
+			}),
+			Object.freeze({
+				heading: 'So I built my own',
+				paragraphs: Object.freeze([
+					'The response was to stop consuming the answer and build the thing that produces it. My own AutoML on AutoGluon, end to end, so that every stage was mine and every failure was mine to find.',
+					'That is a slower way to learn the failure modes and it is the only way I trust. A list of data hazards read in an article is a list you can recite. The same list arrived at by shipping a pipeline, getting a number you cannot explain, and tracing it back to a column, is a list you can recognise on sight in somebody else’s file.',
+					'Everything in the product that came later is that inventory. Not a survey of what can go wrong with data, which anyone can write. The specific set of things that went wrong for me, in order, with what each one cost to find.',
+				]),
+			}),
+			Object.freeze({
+				heading: 'Then the data bit me anyway',
+				paragraphs: Object.freeze([
+					'Months into running that system, a defect surfaced in the corpus underneath it. The details are written up in another piece here; what matters for this one is what happened next, because that is the part nobody writes about.',
+					'Finding it was not the expensive part. Once I suspected the number, the audit took an afternoon. The expensive part was everything after: exclude the affected fields, regenerate historical splits across several seasons, re-run discovery, re-train, re-validate, and then check whether the new number was real or whether I had simply moved the problem.',
+					'Hours per turn of that loop, and every turn ran on code I had written for this dataset and no other. I could do it. That is not the same as it being cheap, and it is not remotely the same as somebody else being able to do it.',
+				]),
+			}),
+			Object.freeze({
+				heading: 'The loop is why nobody checks',
+				paragraphs: Object.freeze([
+					'People do not skip data validation because they are careless. They skip it because the loop is slow, and because it is gated behind writing code.',
+					'To answer a question as basic as *is this column safe to split on*, you open a notebook, load the file, remember which of six date formats you are looking at, write the check, get an answer, and lose it when the kernel restarts. Ask a second question and repeat. Exploration dies at the point where trying one thing costs an afternoon, and what dies with it is the habit of trying the fourth and fifth thing — which is where the defects live, because the first three are the ones everybody thinks of.',
+					'So the industry answer to *is my data any good* became: fit something cheap, report the number, report what drove it. It is fast, it requires no code, and it answers a different question than the one being asked while looking exactly like an answer to it.',
+					'That is the whole opening. Not that the established tools are bad, but that being fast and being right were treated as a trade, and the trade was made in the wrong direction by default.',
+				]),
+			}),
+			Object.freeze({
+				heading: 'Built to refuse',
+				paragraphs: Object.freeze([
+					'The design decision the rest of the product hangs off is that it is allowed to refuse.',
+					'Most tools answer. Faced with a column it cannot confidently read, a tool infers, coerces, picks the most likely interpretation and moves on — and the file still parses, so nothing tells you a choice was made on your behalf. Every reason my product can raise exists because that choice, made silently, costs something specific and unrecoverable.',
+					'So the reasons are a closed set. Every reason the engine can raise is named in a document, and a test fails the build when the code can raise one the document does not name. A reason that is not in that file cannot reach a user. That is not documentation discipline for its own sake — it is the mechanism that stops the set drifting into a grab bag of warnings nobody reads.',
+					'They arrive in ways that are deliberately not interchangeable. A **finding** is worth knowing and stops nothing. A **refusal** is a question only the person in front of the screen can answer, because the file does not contain the information needed to settle it. An **error** means the operation did not happen. A **blocker** refuses the action before it is attempted and replaces the button with the reason, and calling the same intent programmatically returns that reason rather than doing the thing anyway.',
+					'The distinction that took longest to get right is the second one. A refusal is not the tool being unsure. It is the tool being certain that the answer is not in the file, and declining to manufacture one.',
+				]),
+			}),
+			Object.freeze({
+				heading: 'The column that matters is what it costs',
+				paragraphs: Object.freeze([
+					'The registry of reasons has three columns, and the third one is the product.',
+					'Not what the check found. What it costs you. A whole-number column whose century is not in the file is not reported as "ambiguous year format" — it is reported as the fact that no later reading can recover the century, and any comparison against a source that wrote years in full is now wrong in a way that will not surface. A column whose offsets were discarded is not "timezone data missing" — it is that a row within one offset of a split boundary lands on the wrong side of it.',
+					'This sounds like a writing decision and it is an engineering one. A person deciding whether to care about a finding needs to know what continuing costs them, and that is a fact about the pipeline downstream, not about the column. No constant holds it. It cannot be generated from the code, because a generated table is a rendering of what it renders and there is nothing left for a gate to catch.',
+					'So the table is written by hand for a reader, and a test holds it to the code. Both halves survive: wording that means something, and a set that cannot drift.',
+				]),
+			}),
+			Object.freeze({
+				heading: 'A threshold you invent is the bug this product exists to prevent',
+				paragraphs: Object.freeze([
+					'That sentence is a rule in the repository, and it is the one I would point at first if somebody asked what makes this different from a weekend of heuristics.',
+					'Every number in the specification is either measured against the fixture corpus and cited, or it is explicitly marked *proposed*. A proposed number is a hypothesis with a label on it. It is never promoted by quietly deleting the word.',
+					'The reason is that this product exists because somebody, somewhere, picked a cutoff that felt right and shipped it, and everything downstream inherited a number nobody measured. A tool that catches that class of mistake while committing it is worse than no tool, because it launders the same error through an interface that looks authoritative.',
+					'It is also the least fun rule in the codebase to follow. It means the honest state of a check is frequently "we think this floor is about right and we have not proven it," written down in those words, in public, in the specification.',
+				]),
+			}),
+			Object.freeze({
+				heading: 'It tells you what it did not look at',
+				paragraphs: Object.freeze([
+					'Type inference and the hazard checks read a bounded number of rows. The profile reads every row. Those are different guarantees, and a tool that reports both under one heading is telling you something false by omission.',
+					'So the bound is carried in the output. A defect past the row the checks stopped at was never examined, and the result says so rather than leaving absence to be read as a clean bill.',
+					'This is the same move as publishing what a system does not prove, and it is worth more than any check in the product. A reader who knows exactly where the light stops can decide what to do about the dark. A reader who is shown a green result with no boundary on it has been handed a conclusion they did not earn.',
+				]),
+			}),
+			Object.freeze({
+				heading: 'The gate that waived itself',
+				paragraphs: Object.freeze([
+					'One of the build gates enforces a boundary: certain modules may not touch the filesystem. Violations can be waived with a marked comment, because a small number of legitimate exceptions exist and each has to say why.',
+					'The waiver marker was the string `fs:`. Which is a substring of `fs::read`.',
+					'So a comment explaining the rule — prose, in the file, describing why filesystem access was forbidden there — matched the waiver pattern and silently exempted the line beneath it. The gate read its own documentation as permission and passed. The check ran, reported success, and had stopped checking.',
+					'That is the failure this entire product is about, found inside the thing built to find it. The marker is now unambiguous, and the story stays in the repository because a gate that can disable itself is the most expensive kind of bug there is: it does not merely fail to catch things, it produces evidence that there was nothing to catch.',
+				]),
+			}),
+			Object.freeze({
+				heading: 'Twelve documents, deleted',
+				paragraphs: Object.freeze([
+					'The specification directory used to hold twelve documents. They described behaviour in careful detail. One of them was read by a test. The other eleven described work nobody had written.',
+					'I deleted them, and the rule that replaced them is that anything added there which no test reads is a candidate for the same treatment.',
+					'Specification fiction is comfortable. It reads like progress, it survives review, and it is indistinguishable from a finished system right up until somebody tries to use it. The three documents that remain are a contract precisely because a build fails when the code and the document disagree — the reasons registry is checked against what the engine can actually raise, and a new reason plus its row land in one commit or the build is red.',
+					'A document a gate does not read is a wish. Keeping eleven of them would have made the project look further along than it was, to me first and to anyone else second.',
+				]),
+			}),
+			Object.freeze({
+				heading: 'What exists and what does not',
+				paragraphs: Object.freeze([
+					'The read side is built. It reads CSV, JSON and Parquet, profiles every column, runs the read-time hazard checks, and records declarations, renames, row removals and a split declaration into a document on disk. There is a desktop application over it and a headless binary that does the same reading without a window.',
+					'Nothing else exists, and none of the following is an omission I am glossing. There is no build step, no verify, no export, no manifest, no golden vectors, and no licensing. Every leakage detector is unwritten: a split can be declared and counted, and nothing yet checks it for leakage. A finding can be read and waived; it cannot yet be acted on. The document describing the analysis phase opens by saying that everything on the page is intent rather than shipped, and that every threshold in it has been measured against nothing.',
+					'I am stating that here for the same reason the specification states it there. The claim this product will eventually make is that you can trust its answer, and a product making that claim cannot begin by being vague about which parts of it are finished.',
+				]),
+			}),
+			Object.freeze({
+				heading: 'Not a black box, and not a notebook',
+				paragraphs: Object.freeze([
+					'What I wanted was narrow. Churn a dataset quickly, repeatably, without writing code, and get the same answer every time on the same input. Not a service that returns a number. Not a notebook that returns a number and loses it on restart.',
+					'Deterministic, because a data check that returns something different on the second run is not a check. Local and closed rather than hosted, because the answer should not depend on a machine you cannot see and data should not have to leave to be examined. Not a black box, because the whole complaint that started this was being handed a number with no way to interrogate how it was reached.',
+					'Closed source is the honest tension in that last sentence and I am not going to pretend otherwise. The resolution I have settled on is that the reasons are public, the bounds are public, what is measured and what is merely proposed is public, and the specification is a contract a build enforces. You cannot read the implementation. You can read exactly what it will and will not claim, and hold the product to it.',
+					'It will be available at no cost when the analysis phase lands. Until then the honest description is the one above: a read side that works, a design I will defend, and a roadmap that has not shipped.',
+				]),
+			}),
+		]),
+		artifacts: Object.freeze([
+			Object.freeze({ label: 'splitwinner.com', href: 'https://www.splitwinner.com' }),
+			Object.freeze({ label: 'letools.dev', href: 'https://letools.dev' }),
 		]),
 	}),
 	Object.freeze({
