@@ -78,7 +78,7 @@ would race the Vercel build. Vercel is the only deploy path.
 
 | Script | What it protects |
 |---|---|
-| `bun run budget` | Payload ceilings per asset class. A floor to ratchet **down**; raising one needs the reason in the commit body. **Scripts, styles and fonts are summed; HTML is measured per page** — a visitor downloads the whole shared bundle but exactly one document, so summing HTML made the ceiling a cap on how many pages the site may have, which is not a performance property. |
+| `bun run budget` | Payload ceilings per asset class, set with room rather than just above the current payload. A floor pinned under where the code already sits stops being a backstop and becomes a tax on the next commit. Ratchets **down**; raising one needs the reason in the commit body. **HTML and JS are measured per page; CSS and fonts are summed** — a visitor downloads styles and faces whole, but exactly one document and only the chunks that document references. Summing either made the ceiling a cap on how many pages the site may have, which is not a performance property. JS is resolved by reading each document for the chunks it names, and falls back to the sum when there is nothing to attribute them to. |
 | `bun run verify:content` | Countable claims against the sources that own them — marketplace installs, extension count, public repos. Drift fails; an unreachable source warns and passes, because an outage says nothing about honesty. |
 | `bun run og` | Re-renders `static/og.png` from the site's own hero using Playwright, which is already in the tree. Committed, not built at deploy time: a crawler must find it on first request. |
 

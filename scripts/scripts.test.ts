@@ -89,6 +89,44 @@ describe('check-budget', () => {
 		expect(budgetMain(fakeBuild({ 'fat/index.html': (html?.ceiling ?? 0) + 1 }))).toBe(1);
 	});
 
+	it('judges JS by the heaviest page, not the sum of every chunk', () => {
+		// SvelteKit splits by route, so the total counts chunks no single visitor
+		// receives. Two route chunks that each fit comfortably are two lean visits,
+		// and summing them made the ceiling a limit on how many pages may exist —
+		// the same defect already fixed for HTML.
+		// Three chunks at 60% of the ceiling: 1.8x summed, 0.6x per visit. Halves
+		// would have passed under the old sum too, which is a test that proves
+		// nothing about the change it ships with.
+		const js = BUDGETS.find((budget) => budget.label === 'client JS');
+		const each = Math.ceil((js?.ceiling ?? 0) * 0.6);
+		const root = fakeBuild({
+			'a.html': 10,
+			'b.html': 10,
+			'c.html': 10,
+			'_app/one.js': each,
+			'_app/two.js': each,
+			'_app/three.js': each,
+		});
+		writeFileSync(join(root, 'a.html'), '<script src="_app/one.js"></script>');
+		writeFileSync(join(root, 'b.html'), '<script src="_app/two.js"></script>');
+		writeFileSync(join(root, 'c.html'), '<script src="_app/three.js"></script>');
+		expect(budgetMain(root)).toBe(0);
+	});
+
+	it('still fails when one page pulls more JS than the ceiling', () => {
+		const js = BUDGETS.find((budget) => budget.label === 'client JS');
+		const root = fakeBuild({ 'a.html': 10, '_app/fat.js': (js?.ceiling ?? 0) + 1 });
+		writeFileSync(join(root, 'a.html'), '<script src="_app/fat.js"></script>');
+		expect(budgetMain(root)).toBe(1);
+	});
+
+	it('falls back to the sum when no document references anything', () => {
+		// With nothing to attribute chunks to, the total is the only honest bound —
+		// silently reporting zero would turn an unmeasurable build into a pass.
+		const js = BUDGETS.find((budget) => budget.label === 'client JS');
+		expect(budgetMain(fakeBuild({ 'orphan.js': (js?.ceiling ?? 0) + 1 }))).toBe(1);
+	});
+
 	it('covers every asset class the site actually ships', () => {
 		const labels = BUDGETS.map((budget) => budget.label);
 		expect(labels).toEqual(expect.arrayContaining(['client JS', 'CSS', 'fonts', 'HTML']));
