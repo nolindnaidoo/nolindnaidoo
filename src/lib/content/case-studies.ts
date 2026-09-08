@@ -28,7 +28,8 @@ export const intro: readonly string[] = Object.freeze([
 	'That was the problem I had been waiting for, and everything since has been the same problem at a different layer.',
 	'The tools came out of that. Every one of them is a thing I needed twice in a week and got tired of doing by hand — checking whether a page could be scraped before writing the scraper, pulling values out of formats that had no interest in cooperating, finding the key missing from one environment file before a deploy went out. I published them because they were already written, and they found an audience I did not have and never asked for. Sixteen models now run on a daily training-to-serving cycle behind the same discipline: if a stage cannot say whether it worked, it does not ship.',
 	'Then I hit the version of it that scared me. A prediction record is worthless if the person who published it can edit it afterward, and I could not prove I had not. Not because I would lie — because a schema migration does not feel like lying, and from the outside the two are identical. So I built a ledger that commits each day into Bitcoin and into a public transparency log, neither of which I can reach.',
-	'Six weeks in, a schema migration rewrote an anchor that was already published. I broke my own append-only rule. That day’s timestamp can never be made to bind again, and the record says so, permanently, because a rule that bends when it’s inconvenient for its author isn’t a rule.',
+	'Six weeks in, a schema migration rewrote an anchor that was already published. I broke my own append-only rule, and that day’s Bitcoin proof can never be made to bind again. The record says so, permanently, because a rule that bends when it’s inconvenient for its author isn’t a rule.',
+	'The worse finding was underneath it. The verifier’s offline mode had never checked the binding it laid its output out as though it were checking. The one piece of software whose entire job was to catch me was reporting a pass on a test it was not running. That is what the rebuild is designed around — not the broken rule, but the tool that failed to notice.',
 	'The tools are becoming Rust command-line binaries now, for the reason everything else here happened: a pipeline cannot click a menu, and the consumer that matters next isn’t a person.',
 	'I have never written about any of this publicly. That was deliberate — I wanted the work standing on its own before I said anything about it. This is the long version.',
 ]);
@@ -255,11 +256,26 @@ export const caseStudies: readonly CaseStudy[] = Object.freeze([
 			Object.freeze({
 				heading: 'What the alpha cost me to admit',
 				paragraphs: Object.freeze([
-					'The public alpha ran 58 anchored days and produced three disclosures. It is sealed and preserved verbatim, incidents included, under the product’s previous name.',
+					'The public alpha ran 29 anchored days between 19 May and 25 June 2026, with 25 model registrations and 41 daily reports. It is sealed byte-identical under the product’s previous name, with a manifest of every file in it timestamped into Bitcoin at sealing — an independent bound on when the corpus existed, over and above each anchor’s own proof.',
+					'Sealing it meant writing down the complete list of what had gone wrong, including two things that were never disclosed while it was running.',
+					'The first is the one that counts. On 11 June a schema migration rewrote an anchor that had already been published — schema 3 to 4, in place, on a committed file, with a new manifest hash and a new publication time. The Bitcoin proof for that date had been stamped against the original bytes, so it can no longer be bound to the file sitting there now. The day still verifies against the ledger rows. Its timestamp claim does not, and the record states it in those words: not established.',
+					'That cannot be repaired. Repairing it would mean deleting or restamping a proof, which is the exact operation the system exists to make impossible. So it stands permanently, in a file anyone can read, and the official protocol makes that entire failure class mechanically impossible by requiring schema changes to go forward only, enforced in CI.',
 					'The first: two predictions got duplicate intermediate rows because a slate listed the same game twice inside one batch. Both were classified as skips, neither was a bet, no customer saw either, and no published figure moved. The superseded rows are still in the ledger and always will be, because removing them is precisely the operation the ledger exists to make impossible.',
 					'The second: an ingestion fault stopped one sport’s inputs refreshing for four days, and on the last of those the morning run did not execute at all, so that day has no anchor. The gap is stated rather than smoothed. The predictions a healthy pipeline would have produced were not generated afterwards, because backfilling them would have violated the live-timing guarantee the whole system exists to protect. They are recorded as never having existed, which is what they are.',
 					'The third is still open. That sport has been offline since 25 June 2026 for a hardware migration, with no estimated restart date, and the disclosure says exactly that — including that a follow-up will be appended when it resumes.',
-					'None of the three had to be published. Two were found by my own routine review and nobody else was looking; the third is a decision rather than a fault. Publishing them is the only thing that makes the other days worth anything, because a record with no bad days in it is the exact shape of a record that has been curated.',
+					'Sealing added the rest of the accounting. Nine dates in the alpha window carry no anchor. Twelve report dates have no anchor beside them, and reports were never inside the manifest hash at all — a gap the official ledger closes by binding each report’s bytes into the following day’s anchor.',
+					'None of it had to be published. Every one of these was found by my own review and nobody else was looking. Publishing them is the only thing that makes the remaining days worth anything, because a record with no bad days in it is the exact shape of a record that has been curated.',
+				]),
+			}),
+			Object.freeze({
+				heading: 'The verifier was the thing that broke',
+				paragraphs: Object.freeze([
+					'The second undisclosed item is the one that changed the design, and it is the reason there is a version two at all.',
+					'The alpha verifier’s offline Bitcoin mode read the block height out of each proof and never confirmed that the proof committed to the anchor file’s digest — while laying its output out as though that were exactly what it had done. Somebody running the offline check saw a pass. The check they believed they were running was not being run.',
+					'That is the failure this entire site is about, and it had gotten into the one piece of software whose only job was to catch it. A tool that answers confidently and wrongly is worse than one that refuses, because a refusal costs ten minutes and a confident wrong answer costs everything downstream. Mine answered confidently, about the thing I was asking readers to trust least.',
+					'The other half of the same problem was versioning. Each anchor pinned the verifier it was published with, so the sealed alpha spans two generations: sixteen anchors check against one file, thirteen against another, and the repository has to hand you a table explaining which is which. That works, and it hands the reader a job I created for them by shipping a fix.',
+					'So the official ledger inverts the relationship. Verifier identity lives in an append-only release registry rather than inside the anchors, each row carrying that release’s own SHA-256, and the governing rule is that the current release must verify every anchor, every schema and every golden vector ever published on the chain. CI fails the build when it cannot. One file, the newest one, works across the whole history including the parts published before it existed.',
+					'That constraint is deliberately expensive, because the alternative is worse. It means a change to the verifier can never quietly redefine what a past verification meant — which is itself one of the disclosure thresholds, written down before there was anything to disclose.',
 				]),
 			}),
 			Object.freeze({
@@ -274,8 +290,8 @@ export const caseStudies: readonly CaseStudy[] = Object.freeze([
 			Object.freeze({
 				heading: 'Where it actually stands',
 				paragraphs: Object.freeze([
-					'The specification, the verifier, the key history, the payload schemas and the disclosure policy are published now. The alpha record is sealed at 58 anchors with its three incidents attached.',
-					'The official chain opens with its first anchor, one sport first and the others joining as their seasons begin. The gap between the alpha and the official ledger is written into the README as a fact rather than smoothed into a continuous-sounding history.',
+					'The specification, the verifier and its release registry, the key history, the payload schemas and the disclosure policy are published now. The alpha record is sealed at 29 anchors with its incidents and its post-mortem attached.',
+					'The official chain has not opened. Its first anchor is still ahead of it, one sport first and the others joining as their seasons begin, and nothing has been anchored between the alpha’s last day and that first anchor. The gap is written into the README as a fact rather than smoothed into a continuous-sounding history.',
 					'I am stating that plainly for the same reason everything else here is built the way it is. Whether a chain is live is a fact about the world at a moment in time, and it is false right up until it is true. The way to make that claim is to publish the thing and let somebody check, which is what the next paragraph is for.',
 				]),
 			}),
