@@ -56,7 +56,10 @@ const nowHeading = `Now — ${platform.company}`;
 		id="now"
 		title={nowHeading}
 		aside="Current work"
-		study={{ slug: 'audit-trail', label: 'How the ledger works' }}
+		studies={[
+			{ slug: 'validation', label: 'How the models are validated' },
+			{ slug: 'audit-trail', label: 'How the ledger works' },
+		]}
 	>
 		<Platform />
 	</Section>
@@ -65,7 +68,7 @@ const nowHeading = `Now — ${platform.company}`;
 		id="open-source"
 		title="Open source"
 		aside="MIT · in public"
-		study={{ slug: 'le-tools', label: 'How the suite was built' }}
+		studies={[{ slug: 'le-tools', label: 'How the suite was built' }]}
 	>
 		<OpenSource />
 	</Section>

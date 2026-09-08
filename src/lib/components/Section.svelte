@@ -15,16 +15,16 @@ type Props = Readonly<{
 	title: string;
 	aside?: string;
 	/**
-	 * The case study this section is the synopsis of. The home page compresses
-	 * each body of work into a few screens; where the long version exists, the
-	 * way down to it belongs at the end of the summary rather than buried on an
-	 * index the reader has no reason to visit.
+	 * The case studies this section is the synopsis of. The home page compresses
+	 * each body of work into a few screens; where a long version exists, the way
+	 * down to it belongs at the end of the summary rather than buried on an index
+	 * the reader has no reason to visit. A section can front more than one.
 	 */
-	study?: Readonly<{ slug: string; label: string }>;
+	studies?: readonly Readonly<{ slug: string; label: string }>[];
 	children: Snippet;
 }>;
 
-const { id, title, aside, study, children }: Props = $props();
+const { id, title, aside, studies, children }: Props = $props();
 </script>
 
 <section aria-labelledby={id}>
@@ -33,10 +33,14 @@ const { id, title, aside, study, children }: Props = $props();
 		{#if aside}<p class="aside">{aside}</p>{/if}
 	</div>
 	{@render children()}
-	{#if study}
-		<p class="more">
-			<a href="/case-studies/{study.slug}">{study.label} <span aria-hidden="true">→</span></a>
-		</p>
+	{#if studies}
+		<ul class="more">
+			{#each studies as study (study.slug)}
+				<li>
+					<a href="/case-studies/{study.slug}">{study.label} <span aria-hidden="true">→</span></a>
+				</li>
+			{/each}
+		</ul>
 	{/if}
 </section>
 
@@ -56,7 +60,12 @@ const { id, title, aside, study, children }: Props = $props();
 	   the content, and the next section's own head margin does the separating.
 	   Same treatment as the index link in the thesis — one affordance, one look. */
 	.more {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 10px 32px;
 		margin: clamp(28px, 4vw, 40px) var(--pad) 0;
+		padding: 0;
+		list-style: none;
 		font-family: var(--mono);
 		font-size: 13px;
 		letter-spacing: 0.01em;

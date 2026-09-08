@@ -184,6 +184,115 @@ export const caseStudies: readonly CaseStudy[] = Object.freeze([
 		]),
 	}),
 	Object.freeze({
+		slug: 'validation',
+		title: 'When the bug improves your score',
+		annotation:
+			'The characteristic failure in machine learning makes your metrics better, so a good number proves nothing. Two times I was fooled, and the apparatus built so a desk does not have to take my word for any of it.',
+		standfirst:
+			'A leak does not make a model worse. It makes it better, and nothing tells you. This is the validation apparatus that assumes I am the one who cannot be trusted with the result.',
+		sections: Object.freeze([
+			Object.freeze({
+				heading: 'Every failure in this work improves the number',
+				paragraphs: Object.freeze([
+					'In most software a bug makes something worse. Something returns wrong, something crashes, a test goes red, and the badness of the outcome is roughly proportional to how wrong you were.',
+					'This work inverts that. The characteristic failure here makes your metrics better. If a value that was not knowable at prediction time reaches the model, discrimination climbs, the backtest improves, and every number you are looking at moves in the direction you were hoping. Nothing fails. Nothing alerts. The pipeline runs green and the result is worthless.',
+					'So the job is not building a model that scores well. Anyone can build a model that scores well, and the fastest way to do it is by accident. The job is building a validation apparatus you cannot fool, and then repeatedly failing to fool it.',
+					'What follows is two occasions where I did fool it, and what I built afterwards.',
+				]),
+			}),
+			Object.freeze({
+				heading: 'The number that was too good',
+				paragraphs: Object.freeze([
+					'A round of training on one sport came back with a discrimination score far above what that sport permits. Games in it are close to coin flips at the margin the model was pricing; the number implied a level of skill nobody has.',
+					'Nothing was broken. Every stage reported success. The only thing that flagged it was knowing the domain well enough to find the result implausible — which is not a control, it is luck with a lab coat on. If the same leak had produced a merely good number instead of an absurd one, it would have shipped.',
+					'The audit found one family of fields, sourced from a third-party API at scrape time, that encoded the outcome of the very game being predicted.',
+					'Two independent paths had put it there, which is why it survived. The first was a historical backfill: the API answers with state as of the moment you ask, so a backfill run this year stamps this year’s state onto rows from four seasons ago. The second was a nightly re-pull: the morning fetch captures the genuine pre-game state, and the evening fetch overwrites the same row with the post-game state, so by the next morning yesterday’s row has quietly become a record of what happened.',
+					'The evidence that made it undeniable was opening day. Before a single game of that season had been played, the field already separated the eventual winners from the eventual losers perfectly. A pre-game record that knows the result of a game nobody has played yet.',
+					'The other half of the audit was the useful half. Every rolling-window feature family was checked line by line, and all of them were clean by construction — strict before-this-game iteration, gated on completed-before-this-timestamp, no off-by-one anywhere in the set. The leak was not a systemic design failure. It was one external source trusted at face value.',
+				]),
+			}),
+			Object.freeze({
+				heading: 'The lesson that generalized',
+				paragraphs: Object.freeze([
+					'Any value sourced from a third-party API at scrape time is suspect unless that API guarantees point-in-time semantics, and almost none of them do. An API answers as of now. Your row is dated then. Nothing in the response tells you which one you received, and the response is well-formed either way.',
+					'The fix went in two layers. The materializer stopped reading the fields at all, so future scrapes cannot carry them. And an exclusion list was added so that the historical rows still holding the values cannot feed them into training while the proper re-run is outstanding. The cheap fix is instant and the correct fix is a multi-season regeneration; running the cheap one first is not a compromise when the expensive one is scheduled.',
+					'Then everything downstream was re-discovered and re-trained, and the post-fix number is the system’s actual skill. The headline it replaced was never mine.',
+				]),
+			}),
+			Object.freeze({
+				heading: 'The apparatus',
+				paragraphs: Object.freeze([
+					'Cross-validation is time-series aware, with a purge gap and an embargo, so no fold trains on the window immediately adjacent to what it tests. Ordinary k-fold on temporal data is a leak with a respectable name.',
+					'Holdout years are isolated, and a configuration that quietly folds test years back into training is written down as a named failure rather than left to vigilance, because the consequence is that every validation number produced afterwards is fiction and nothing about it looks wrong.',
+					'Probabilities are calibrated rather than merely accurate. A model that says seventy percent should win seventy percent of the time, and accuracy does not check that — a model can be accurate and systematically overconfident at once. Four calibrators are fit on a held-out split and the winner is selected by the lowest expected calibration error, not by the best accuracy.',
+					'The published metrics are proper scoring rules: Brier and log loss. Both are minimized only by honest probabilities, which is the entire reason for choosing them. You cannot improve a proper scoring rule by miscalibrating, and you can inflate accuracy simply by being confident and wrong. Losers are in the denominator by construction.',
+					'A drift monitor watches calibration after settlement, because a model calibrated in training drifts as a season moves and rosters, rules and the market all adapt. The monitor is the early warning; a re-train is the fix.',
+				]),
+			}),
+			Object.freeze({
+				heading: 'The refusal is the product',
+				paragraphs: Object.freeze([
+					'The bet-or-skip decision is not a confidence threshold. A threshold is a guessed number with no guarantee behind it, and the guess is always made by the person who benefits from it being permissive.',
+					'It is conformal abstention. For every game the model produces a prediction set with a coverage guarantee: the set contains the true outcome at least as often as the configured level. The size of that set is a calibrated measure of the model’s own uncertainty. One outcome in the set means the model can separate them at that coverage level and the game is eligible. Two means both are plausible and the model genuinely cannot tell, so it skips.',
+					'That is a principled refusal with a proof behind it rather than a tuned cutoff, and it is the same instinct as everything else I build: a system that answers confidently and wrongly is worse than one that declines.',
+					'The part that matters for anyone checking the record is where the decision is written. The prediction set, its size, and the pass-or-skip flag are all inside the hashed payload that goes into the audit ledger, before the game. The classification is fixed on day one and cannot be re-litigated afterwards. Nobody can decide in hindsight that a loss was really a skip, and that includes me.',
+					'A published hit rate is only meaningful if the denominator was fixed before the outcomes were known. This is the mechanism that fixes it, and it is a design property rather than a promise.',
+				]),
+			}),
+			Object.freeze({
+				heading: 'Beating the close, not the record',
+				paragraphs: Object.freeze([
+					'Win rate over any short horizon is noise. You can be right and lose, wrong and win, and a run of either proves nothing about the model that produced it.',
+					'Closing line value is the measure that survives the variance. The closing price is the market’s most informed estimate, having absorbed everything the sharp money knows; the difference between the price you took and where the market settled is a direct read on whether you were early to something real. Beat the close consistently and you have an edge. Fail to, and you do not, regardless of what any individual result did.',
+					'That is why it is wired into the risk loop rather than only reported. When a sport’s rolling closing-line value goes negative, new bets in that sport are automatically scored riskier and become more likely to be skipped — the edge decaying throttles itself without anyone having to notice and intervene.',
+					'Its limits are documented beside it. The order-based measure only sees bets that were actually placed, so it is blind to the skip universe until the per-book version is wired in. And a rolling window lags: a sport whose edge is decaying right now does not trip the penalty until the window fills.',
+				]),
+			}),
+			Object.freeze({
+				heading: 'The second silent failure was in the validation itself',
+				paragraphs: Object.freeze([
+					'A feature-adjudication stage had been fully written, listed in the dependency file, and documented. For weeks it did not run.',
+					'The dependency was not installed in the interpreter that runs in production. The import error fell into a graceful-skip path, which recorded a verdict of skipped and carried on, and the docstring still described the stage as deferred. Every run was green. The stage was in the code, in the requirements, and in the documentation, and it was not executing.',
+					'A graceful skip is indistinguishable from not implemented. That is now a written rule: before trusting any deferred or to-do claim in this codebase, grep for the function, and wherever a graceful-skip pattern exists, check that the dependency is actually installed in the interpreter that runs in production rather than the one on your laptop.',
+					'Two silent failures, one in the data and one in the apparatus meant to catch failures in the data. Both found weeks late, both found by me, because nobody else was looking. That is the honest texture of this work, and any account of it without those in it is an advertisement.',
+				]),
+			}),
+			Object.freeze({
+				heading: 'Determinism, stated in tiers',
+				paragraphs: Object.freeze([
+					'Reproducibility is what makes the ledger’s hash mean something about correctness rather than only about what was asserted. Without it, a reader can confirm a prediction is unaltered but not that it was right.',
+					'Determinism is not one property, though, and claiming it flat would be a lie. So it is stated as tiers with a posture on each one. Bit-exact reproduction of training — re-run it and get an identical artifact — is not claimed; it is the hardest tier and not a realistic target for this kind of model. Statistical reproduction, where a re-train lands within epsilon on calibration and score, is the target. Inference determinism is hard-guaranteed and live. Data determinism for rows already written is a confirmed gap, named as a gap.',
+					'The guarantee that is live is enforced rather than hoped for. Seeds are pinned across every generator. BLAS thread counts are forced to one before the numerical libraries load, because those libraries lock their thread pools at import and a floating-point reduction whose order depends on thread count is not deterministic — and the pinning is asserted at startup rather than assumed to have worked. Ordered structures are sorted before serialization so the hashed output is stable, with a regression test holding it.',
+					'Every model carries its full numerical environment in the registry: interpreter and package versions, CPU model, BLAS variant, thread settings. A reproduction is only meaningful against a matching environment, and recording it is what lets a verifier confirm the match instead of guessing at it.',
+					'The claim that survives all that is narrow and precise: given the registered model and the audited feature vector, you get this prediction byte for byte. Not that any past prediction can be re-derived from scratch. The second sentence is the one people want and it is not true, so it is not said.',
+				]),
+			}),
+			Object.freeze({
+				heading: 'Every document ends with its limitations',
+				paragraphs: Object.freeze([
+					'The internal documentation for each part of this system ends the same way, under a heading for limitations and honest edges. The calibration split is fixed, so sports with less data get a noisier calibrator. Calibration is frozen with the artifact at training time and can only be monitored between re-trains, never corrected. The closing-line window lags. The per-book measurement surface exists and is not yet wired into the live loop.',
+					'None of that is there as humility. It is there because the alternative is that somebody else finds it, and the distance between disclosing a limitation and having one discovered is the entire distance between a system a desk will use and one it will not.',
+					'It is the same pattern as the ledger’s list of what it does not prove, written for the same reason. A document that only enumerates its strengths has told you who wrote it and why.',
+				]),
+			}),
+			Object.freeze({
+				heading: 'What all of it is for',
+				paragraphs: Object.freeze([
+					'The output is a calibrated probability with a coverage-guaranteed refusal attached, hashed and anchored to a public timestamp before the event starts.',
+					'A desk evaluating that does not have to trust a win rate, or me. It can confirm the skip was declared before the outcome was known, score the probabilities with rules that cannot be improved by lying, and measure the whole set against the closing line rather than against a curated highlight reel.',
+					'That was the design goal from the beginning: make the numbers checkable by somebody who starts from the assumption that they are wrong. Everything above is what that costs.',
+				]),
+			}),
+		]),
+		artifacts: Object.freeze([
+			Object.freeze({ label: 'splitwinner.com', href: 'https://www.splitwinner.com' }),
+			Object.freeze({
+				label: 'The ledger the predictions are anchored to',
+				href: 'https://github.com/SplitWinner/audit_trail',
+			}),
+		]),
+	}),
+	Object.freeze({
 		slug: 'audit-trail',
 		title: 'The public audit trail',
 		annotation:
