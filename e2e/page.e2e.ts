@@ -70,7 +70,13 @@ test('gives every section a real heading', async ({ page }) => {
 		text.toLowerCase(),
 	);
 	expect(headings).toEqual(
-		expect.arrayContaining(['the record', 'open source', 'the floor', 'elsewhere']),
+		expect.arrayContaining([
+			'the long version',
+			'the record',
+			'open source',
+			'the floor',
+			'elsewhere',
+		]),
 	);
 });
 

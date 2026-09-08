@@ -43,7 +43,7 @@ export const caseStudies: readonly CaseStudy[] = Object.freeze([
 		// registries; restating it in a third place would put a number on the site
 		// that no gate is watching.
 		annotation:
-			'Sixteen tools born from the data chain above, grown with no launch and no marketing. A year of building them with a model, the rewrite that threw the first version away, and the honest accounting of what the Rust port costs me.',
+			'Sixteen tools that came out of a data pipeline I could not take on trust, grown with no launch and no marketing. A year of building them with a model, the rewrite that threw the first version away, and the honest accounting of what the Rust port costs me.',
 		standfirst:
 			'Sixteen developer tools, grown entirely by word of mouth. They exist because I was training my own models and the data kept being wrong in ways nothing told me about. What follows is the whole build, including the parts that went badly.',
 		sections: Object.freeze([

@@ -17,42 +17,6 @@ export const profile = Object.freeze({
 		'Platform & full-stack architecture',
 		'Automotive · finance · defense · public records',
 	]),
-	thesis: Object.freeze({
-		lead: 'I raise the',
-		emphasis: 'floor',
-		/**
-		 * Three beats: where the work happened, the habit the work has in common,
-		 * and why it is worth something on a team. The heading makes the claim and
-		 * the body has to pay it off with mechanisms — the three named here are the
-		 * three case studies in one sentence each, so the section is a promise the
-		 * rest of the page keeps rather than a summary of it.
-		 *
-		 * It read as a manager's paragraph before this: none of it was a solo act,
-		 * the parts that lasted were never the parts I typed, rather make eight
-		 * engineers faster. That argues against every case study on the site, which
-		 * is an engineer finding his own leaks in his own apparatus.
-		 *
-		 * Rendered beside the heading rather than under it, so the paragraphs are
-		 * also what fills the column the display type would otherwise leave empty.
-		 */
-		body: Object.freeze([
-			`A Fortune 10 trading floor. A DoD communications platform. A state records system. A
-				retail program that drew media attention years before consumers could touch it. Three of
-				those were among the first of their kind in banking, defense and automotive retail —
-				built inside enterprises with a hundred stakeholders, and inside startups with none.`,
-			`What the work has in common is that I build the thing that catches me. A coverage floor
-				that fails the build after I stop watching. A generator that fuzzes two implementations
-				of one tool against each other, because I wrote it twice and trusted myself the second
-				time. A ledger anchored into Bitcoin and a public transparency log so no prediction can
-				be revised after the outcome, including by me — carrying, permanently, the day I broke
-				my own append-only rule.`,
-			`That is not caution. It is the only way to move quickly on systems where the
-				characteristic failure improves your numbers: a leak raises accuracy, a check that never
-				runs reports a pass. I have caught myself twice, both times weeks late, both times
-				because something I built earlier could see it. Those habits come from working where
-				nobody else was checking. They are worth more somewhere someone is.`,
-		]),
-	}),
 });
 
 export const contact: Readonly<{
