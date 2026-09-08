@@ -68,7 +68,7 @@ would race the Vercel build. Vercel is the only deploy path.
   `bun run format` fixes.
 - **Vitest** for unit tests (v8 coverage, thresholds enforced), **Playwright +
   axe-core** for a11y, end-to-end, and visual regression.
-- **Two vendored faces, no font CDN.** Geist Variable (subset, 26 KB, full
+- **Two vendored faces, no font CDN.** Geist Variable (subset, full
   100–900 axis) for display and JetBrains Mono for data, both preloaded. The
   axis is what makes the hero's scroll-driven weight interpolate rather than
   step, and self-hosting removes a third-party request the page does not need.
@@ -84,12 +84,14 @@ would race the Vercel build. Vercel is the only deploy path.
 
 ### Coverage
 
-Enforced at **100 / 100 / 100 statements, functions, lines** and **93 branches**
-over everything that carries behaviour: `content/`, `seo/`, `actions/`, the
+Scoped to everything that carries behaviour: `content/`, `seo/`, `actions/`, the
 route handlers (`robots.txt`, `sitemap.xml`, and the case-study `+page.ts`), and
-`scripts/`. The remaining branches are optional-chain and
-nullish guards on external JSON whose absent shape cannot occur without the API
-changing; contriving those cases would assert the stub rather than the code.
+`scripts/`.
+
+**The thresholds live in `vite.config.ts`, with the reasoning beside them, and
+are not restated here.** They are a backstop against collapse, not a target. A
+countable claim gets one home; this file kept a second copy of that one, and the
+two drifted.
 
 Two things are excluded on purpose, and neither is a gap:
 
@@ -109,7 +111,7 @@ and card-rendering logic testable at all; before it, they were verified by
 running them once and seeing a ✓, which proves the happy path and nothing else.
 
 **Lighthouse budgets were considered and rejected.** On a prerendered page with
-no images, two preloaded fonts and 101 KB of JS, Lighthouse scores 100 and stays
+no images and two preloaded fonts, Lighthouse scores 100 and stays
 there; `@lhci/cli` would be a large dependency guarding a number that cannot
 move without the payload budget failing first.
 
