@@ -5,9 +5,9 @@ export const projects: readonly Project[] = Object.freeze([
 		name: 'Limited Edition Dev Tools',
 		href: 'https://letools.dev',
 		summary:
-			'Ten zero-hassle VS Code utilities, past 97,000 downloads across Open VSX and the VS Code Marketplace. Secrets detection that never leaves your machine, env sync with visual diff and conflict resolution, regex with live previews and ReDoS scoring, and seven more. Being ported to Zed, with the cores republished as Rust crates.',
+			'Sixteen single-purpose developer tools. Ten ship as zero-hassle VS Code extensions, past 97,000 downloads across Open VSX and the VS Code Marketplace; all sixteen ship as Rust crates on crates.io and as MCP servers an agent can call. Secrets detection that never leaves your machine, env sync with visual diff and conflict resolution, regex with live previews and ReDoS scoring, and thirteen more. Zed ports in progress.',
 		tech: 'TypeScript',
-		facts: Object.freeze(['10 extensions', '97K+ downloads', 'Zed & Rust in progress']),
+		facts: Object.freeze(['10 extensions', '97K+ downloads', '16 Rust crates']),
 	}),
 	Object.freeze({
 		name: 'pixelcoords',

@@ -42,9 +42,9 @@ export const caseStudies: readonly CaseStudy[] = Object.freeze([
 		// registries; restating it in a third place would put a number on the site
 		// that no gate is watching.
 		annotation:
-			'Ten tools born from the data chain above, grown with no launch and no marketing. Phase one of something deliberate, and the honest accounting of what the Rust port costs me.',
+			'Sixteen tools born from the data chain above, grown with no launch and no marketing. A year of building them with a model, the rewrite that threw the first version away, and the honest accounting of what the Rust port costs me.',
 		standfirst:
-			'Ten developer tools, grown entirely by word of mouth. They exist because I was training my own models and the data kept being wrong in ways nothing told me about.',
+			'Sixteen developer tools, grown entirely by word of mouth. They exist because I was training my own models and the data kept being wrong in ways nothing told me about. What follows is the whole build, including the parts that went badly.',
 		sections: Object.freeze([
 			Object.freeze({
 				heading: 'The chain',
@@ -73,15 +73,15 @@ export const caseStudies: readonly CaseStudy[] = Object.freeze([
 				paragraphs: Object.freeze([
 					'I had wanted to write open-source software for years but never found anything worth building. Not a shortage of ideas — a shortage of problems I actually had, repeatedly, that I understood well enough to solve properly. Writing a library for a problem you have read about produces a library that looks right.',
 					'The data work gave me the problem. Same operations, every day, across every format, between every pair of sources. The goal was blunt: mangle any data source, for any reason, with speed. Get a value out of whatever it is trapped in, see what is actually there, find the drift between two things that are supposed to agree.',
-					'Ten tools is what it looks like from the outside. From the inside, it is one capability with ten entry points.',
-					'The shape was also the argument. Every one does a single job, runs locally, returns the same answer twice, and reports through an exit code — which is the same shape a job has to have before an agent can be trusted to run it unattended. That is the bet: not one long autonomous session that impresses in a demo, but many short jobs with hard edges that a person or a model can call and verify. Publishing all ten to the Model Context Protocol registry cost almost nothing precisely because they were already built that way.',
+					'Sixteen tools is what it looks like from the outside. From the inside, it is one capability with sixteen entry points.',
+					'The shape was also the argument. Every one does a single job, runs locally, returns the same answer twice, and reports through an exit code — which is the same shape a job has to have before an agent can be trusted to run it unattended. That is the bet: not one long autonomous session that impresses in a demo, but many short jobs with hard edges that a person or a model can call and verify. Publishing them to the Model Context Protocol registry cost almost nothing precisely because they were already built that way.',
 				]),
 			}),
 			Object.freeze({
 				heading: 'The shape of the suite is the shape of the job',
 				paragraphs: Object.freeze([
 					'I wasn’t only training models. The span was the whole stack — the brand, every document, the websites, the backend, the APIs, the data modeling, secure transport, the market data integration, and the parsing of disparate sources into feeds anything could consume. It ended at sixteen models on one daily pipeline.',
-					'That span explains the suite better than any feature list. Six of the ten came out of the ingestion chain — checking whether a page could be scraped before writing the scraper, extracting strings, numbers, dates, paths, and URLs from formats that had no interest in cooperating. The other four came from everything surrounding it: keeping credentials out of commits, finding the missing key across environment files before a deploy, testing a regular expression before it went somewhere it could hang, and auditing color across a brand I also owned.',
+					'That span explains the suite better than any feature list. Six of the first ten came out of the ingestion chain — checking whether a page could be scraped before writing the scraper, extracting strings, numbers, dates, paths, and URLs from formats that had no interest in cooperating. The other four came from everything surrounding it: keeping credentials out of commits, finding the missing key across environment files before a deploy, testing a regular expression before it went somewhere it could hang, and auditing color across a brand I also owned.',
 					'Nobody else was going to catch a mistake in any of it, which is why each one is built to fail loudly rather than quietly. A tool that silently does the wrong thing costs more than no tool at all — so every one of them exits non-zero when it should, and says why.',
 				]),
 			}),
@@ -92,6 +92,36 @@ export const caseStudies: readonly CaseStudy[] = Object.freeze([
 					'The rule I settled on is that none of them touch the network. Not for updates, not for telemetry, not for a convenient lookup. Your data stays on your machine because there is no path for it to leave.',
 					'That sounds like a privacy stance. It’s really a procurement one. A tool that makes a request is a tool somebody has to review, approve, and then re-review the next time it changes. A tool that cannot make a request is a much shorter conversation, and inside a company that conversation is the entire difference between useful and installed.',
 					'The same instinct shows up in the smaller decisions. paths-le resolves symlinks and canonicalizes paths rather than reporting whatever string it was handed — because a path that looks right but points somewhere else is exactly the silent-failure shape I keep describing, and in a monorepo behind a build system, it is routine rather than exotic.',
+				]),
+			}),
+			Object.freeze({
+				heading: 'Sixteen repositories and no shared library',
+				paragraphs: Object.freeze([
+					'Sixteen tools that share a shape have an obvious home: one repository, one core package, sixteen thin wrappers. I went the other way. Sixteen separate repositories, each carrying its own copy of the pieces they have in common.',
+					'The reason is the person installing one. A shared core means every tool ships the union of what all sixteen need, and you take a dependency on machinery your tool never calls. Kept separate, each one carries only its own code, updates on its own schedule, and can be installed, pinned, or removed without touching the other fifteen. Nothing is forced on you because something else needed it.',
+					'That choice has a real cost and it is the one the rest of this page keeps warning about: duplication drifts. Two copies of the same extraction rule stay identical only until somebody fixes one of them.',
+					'So the line is drawn at the repository boundary rather than pretended away. Inside a repo, define it once — duplicate regexes and duplicate scheme checks have each already shipped as a bug there. Across repos, copy, and pay for the copy with gates that fail when the copies disagree. The duplication is a decision I have to fund, not a shortcut I got away with.',
+				]),
+			}),
+			Object.freeze({
+				heading: 'The rewrite',
+				paragraphs: Object.freeze([
+					'The first versions were built with whatever cost nothing. Gemini Flash, free tier, working around the limits. That was the right call for what it was: it got ten tools written and shipped, and shipped is the only state that teaches you anything.',
+					'What it produced was ten working tools sitting on a codebase that could not be extended. Layers that had grown rather than been chosen. Tests that confirmed the happy path. Enough structural debt that every new feature cost more than the last one.',
+					'So I threw it away and rewrote all of them on Claude Opus 4.5. Not a refactor — a different architecture, adopted deliberately across the family at once, with the previous version left behind rather than migrated.',
+					'The dates are the part I would check if somebody told me this. Version 2.0.0 landed across the fleet on 29 July 2026. Between 4 and 16 August the same repos went 2.0.1, 2.1.0, 2.2.1, 2.2.2, 2.2.3, 2.2.4, 2.3.0, 2.3.1. Six more tools were built in that window and never got an extension at all — they were born as Rust crates, because by then that was the shape.',
+					'That pace is not a model typing quickly. It is sixteen repositories holding the same architecture on purpose, so a decision gets made once and applied sixteen times, and a gate rather than my attention says whether it landed correctly in all sixteen.',
+				]),
+			}),
+			Object.freeze({
+				heading: 'What managing a fleet with a model actually is',
+				paragraphs: Object.freeze([
+					'Every repository carries the same standard in six files: a canonical one plus byte-identical mirrors for the other assistants, each of which reads a different filename. A test fails when they diverge. One standard, six copies, one check — the same trade as the code, made for the same reason.',
+					'The review procedure lives in exactly one place instead of sixteen, because sixteen copies of a checklist drift. Its governing rule is the opposite of what a model is good at: review one tool properly, fix it, then move to the next. Do not sweep a change across the family and fix the fallout afterwards.',
+					'The scope of that rule is behaviour, not mechanics. Propagating a config file or rewording a rule in every instruction file is fine to do fleet-wide, because the gates fail on a bad copy. Changing what the code does is not, because a batch produces batch-shaped blind spots and passes every check while doing it.',
+					'I know that because it happened. A pass that localized label: properties silently broke seven quick-pick selections in one repo — the labels were translated and the identity comparisons were still testing English literals, so the match simply never fired. It passed typecheck, lint, 210 unit tests and 8 integration tests. A later sweep found 35 unlocalized progress messages across five repos, two of them in a repo that had already been declared finished.',
+					'The second rule came out of the same week: do not let your verification share a blind spot with your edit. A fleet-wide renumbering matched only the lines where a number and its keyword appeared together, and was checked with that same filter — so eight files where the phrase wrapped across two lines passed a check that structurally could not see them. Verify with a different query than the one that made the change.',
+					'That is the actual skill in working this way, and it is not prompting. It is knowing which changes a machine may make sixteen times unattended, which ones have to be made once and read by a person, and how to build the check that catches the difference.',
 				]),
 			}),
 			Object.freeze({
@@ -107,6 +137,26 @@ export const caseStudies: readonly CaseStudy[] = Object.freeze([
 				]),
 			}),
 			Object.freeze({
+				heading: 'Two implementations, one answer',
+				paragraphs: Object.freeze([
+					'Porting to Rust means the same tool now exists twice, in two languages, written months apart. extract_colors is one tool with one schema offered by two different servers, and an agent that reaches either has to get the same answer. That is a contract, so it is checked like one.',
+					'Two gates hold it. The first runs both implementations over a shared corpus that lives inside the crate: a multiline rgb() normalised to single spaces, a five-digit hex rejected, a commented-out declaration skipped, a named colour sitting in prose that is not a colour. That pins the cases somebody thought of.',
+					'The second generates the cases nobody thought of. It builds documents from a format, a value, a wrapper and a neighbourhood — including multi-byte neighbours, which is exactly where two regex engines disagree without anyone noticing — and requires both servers to answer identically. It is deterministic: the seed prints on every run and reprints on failure, and the failing document is dumped with every non-ASCII character escaped, so it pastes straight into a test.',
+					'It exists because of a specific bug. The xml language id ran the markup-HTML extractor in the crate and the markup-SVG one in the extension, so a fill attribute was found by one surface and missed by the other. One hand-written probe eventually found it. The generator would have found it on day one.',
+					'What the gates deliberately do not check is the surfaces themselves. The crate walks trees, takes a palette, writes JSON Lines and has exit codes; the extension is editor-first and has none of that. Those divergences are listed in the crate spec by name. Asserting one against the other would manufacture failures out of decisions.',
+				]),
+			}),
+			Object.freeze({
+				heading: 'Treating them like enterprise software',
+				paragraphs: Object.freeze([
+					'Editor extensions do not normally get any of this, and that is a rational choice. Nobody is paying, nobody has an SLA, and English-only with a smoke test is a sensible amount of effort for a side project.',
+					'These get it anyway. Twelve translated locales per extension. A coverage table in the README generated from a real run and failed by CI when it drifts from the numbers a fresh run produces. An integration suite that executes inside a real editor host, and an end-to-end test that installs the built artifact into a clean profile — because a passing unit suite has never once proven that a package installs. CodeQL on every push, dependency updates that merge themselves when the gates pass, signed provenance on the published packages, and a separate release pipeline for the crate beside the one for the extension.',
+					'The numbers are inspectable rather than asserted. One tool sits at 347 test cases across 24 files, 90.79% statements and 79.43% branches, and those figures are in its README because a script wrote them there from coverage-summary.json and the build fails when they stop matching. The performance table beside it prints the machine, the input sizes and the method, and is deliberately not gated in CI — a benchmark that gates a build only tells you how busy the runner was.',
+					'The reason for all of it is not the extensions. Working alone, the thing that decays first is not the ability to write code. It is the habits that only exist because other people depend on you: releasing on a schedule, honouring a deprecation, keeping a changelog somebody reads, shipping a translation you cannot personally proofread, refusing to merge your own broken build at midnight.',
+					'So I run these the way I would run software with a team behind it, and the practice is the point. It also produced the thing I did not plan: a fleet small enough to hold in my head and strict enough to be honest, which turns out to be the only environment where you can find out what a model can actually be trusted to do.',
+				]),
+			}),
+			Object.freeze({
 				heading: 'This is phase one',
 				paragraphs: Object.freeze([
 					'The ten manual tools are the first phase of something I have been building deliberately, and I would rather say that out loud than let it look like ten utilities that happened.',
@@ -118,7 +168,7 @@ export const caseStudies: readonly CaseStudy[] = Object.freeze([
 			Object.freeze({
 				heading: 'Check it yourself',
 				paragraphs: Object.freeze([
-					'Everything above is inspectable. Ten repositories with their full commit history, CI you can watch run, releases with provenance you can verify, packages on four registries. The download figures come from the registries’ own APIs, not from me.',
+					'Everything above is inspectable. Sixteen repositories with their commit history, CI you can watch run, releases with provenance you can verify, packages on five registries. The download figures come from the registries’ own APIs, not from me, and this site fails its own build when they drift from what it claims.',
 					'I would rather you look than take my word for it. That preference is the reason all of this is built the way it is.',
 				]),
 			}),
