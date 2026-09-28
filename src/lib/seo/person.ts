@@ -37,7 +37,7 @@ export function personSchemaTag(): string {
  *
  * Each SoftwareApplication points its `author` at the Person's `@id`, which is
  * what turns a list of links into a graph a crawler can follow: the products
- * carry real authority — seventy thousand downloads across the suite — and
+ * carry real authority — a hundred thousand downloads across the suite — and
  * without this edge none of it attaches to the person.
  */
 export function graph(): string {

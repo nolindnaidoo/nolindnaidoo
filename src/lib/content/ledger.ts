@@ -123,7 +123,7 @@ export const ledger: readonly LedgerEntry[] = Object.freeze([
 	Object.freeze({
 		id: 'open-source',
 		claim: 'Developer tools shipped in the open, growing entirely by word of mouth',
-		value: '97K+',
+		value: '100K+',
 		secondary: 'downloads and climbing',
 		attribution: '10 VS Code extensions · 2 Rust binaries',
 		detail: Object.freeze([

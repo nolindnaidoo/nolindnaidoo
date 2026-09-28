@@ -17,7 +17,7 @@
  *
  * Install totals come from Open VSX, which is where they actually accrue: the
  * Marketplace `install` statistic covers one channel and reports about 500,
- * while Open VSX reports seventy thousand. Checking the wrong registry once
+ * while Open VSX reports ninety-eight thousand. Checking the wrong registry once
  * already produced a confident, wrong conclusion that the claim was inflated.
  *
  * Run: bun run verify:content
@@ -175,7 +175,7 @@ export function claimedExtensions(): number {
 	return numberIn(fact as string, 'extension count');
 }
 
-/** The "97K+" headline value, read from the ledger row that states it. */
+/** The "100K+" headline value, read from the ledger row that states it. */
 export function claimedInstalls(): number {
 	const row = ledger.find((entry) => /downloads/.test(entry.secondary ?? ''));
 	if (!row) throw new Error('no ledger row states a download count');

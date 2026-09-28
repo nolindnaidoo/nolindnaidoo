@@ -164,7 +164,7 @@ test('emits Person structured data with the identity network', async ({ page }) 
 	expect(person?.sameAs).toContain('https://www.linkedin.com/in/nolindnaidoo/');
 
 	// Every product attributed to that same id. This edge is what carries the
-	// suite's seventy thousand downloads back to the person.
+	// suite's hundred thousand downloads back to the person.
 	const apps = nodes.filter((node) => node['@type'] === 'SoftwareApplication') as {
 		author: { '@id': string };
 	}[];

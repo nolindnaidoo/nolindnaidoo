@@ -28,7 +28,7 @@ That's where the experiment stands.
 
 ---
 
-## Limited Edition Dev Tools · 97,000+ downloads
+## Limited Edition Dev Tools · 100,000+ downloads
 
 **[letools.dev](https://letools.dev)** — 16 built, 10 published to Open VSX and the VS Code
 Marketplace, all 10 on the official **Model Context Protocol registry** so agents get the same
