@@ -28,11 +28,30 @@ That's where the experiment stands.
 
 ---
 
+## JevLint-LE · a linter for Jev questions
+
+**[JevLint-LE](https://github.com/nolindnaidoo/jevlint-le)** — the first linter for the
+questions people write for TypeSafe's Jev model. Jev answers a badly worded question as fast
+and as confidently as a good one, so the mistake shows up later as wrong answers. This finds
+it in the code, before the request is sent.
+
+It reads questions straight out of JSON, JavaScript, TypeScript, Python, Rust and Go, with no
+API key and no network calls. On the VS Code Marketplace and Open VSX, as a command line for
+CI, and as an MCP server for agents.
+
+The rules are measured, not asserted. I pulled questions from 1,411 public files across 720
+repositories and hand-labelled 300 of them before the rules ran: about 1 in 20 had a clear
+wording defect. What the rules catch and miss on that sample is written down in the repo,
+misses included. A part of a question built at runtime is counted as not read, never guessed
+at.
+
+---
+
 ## Limited Edition Dev Tools · 100,000+ downloads
 
-**[letools.dev](https://letools.dev)** — 16 built, 10 published to Open VSX and the VS Code
-Marketplace, all 10 on the official **Model Context Protocol registry** so agents get the same
-interface editors do. Counts come from the registries' own APIs, not from me.
+**[letools.dev](https://letools.dev)** — 16 tools, all 16 published to Open VSX and the VS
+Code Marketplace, each with an MCP server so agents get the same interface editors do. Counts
+come from the registries' own APIs, not from me.
 
 Local, deterministic, exit codes as the API.
 
@@ -42,15 +61,18 @@ Local, deterministic, exit codes as the API.
 | `secrets-le` | detect and sanitize credentials locally, before you commit |
 | `regex-le` | find, test, and validate regular expressions with ReDoS screening |
 | `scrape-le` | check whether a page is scrapeable before you write the scraper |
+| `unicode-le` | find the Unicode that hides meaning: bidi controls, invisibles, homoglyphs, mixed scripts |
+| `versions-le` | find where one dependency is constrained differently across a repository's manifests |
+| `i18n-le` | identify the i18n library a project uses, then audit its catalogs by that library's rules |
 | `string-le` | extract string values for i18n from JSON, YAML, CSV, TOML, INI, `.env` |
 | `numbers-le` | extract numeric values from JSON, YAML, CSV, TOML, INI, `.env` |
 | `dates-le` | extract and analyze dates from logs, configs, and code |
 | `paths-le` | extract file paths from JS/TS imports, JSON, HTML, CSS, TOML, CSV, `.env` |
 | `urls-le` | extract URLs from documentation, configs, and code |
 | `colors-le` | extract and analyze colors from CSS, SCSS, LESS, Stylus, HTML, JS/TS, SVG |
-
-Six more ship the Rust crate first, extension to follow: `i18n-le`, `ids-le`, `ips-le`,
-`unicode-le`, `units-le`, `versions-le`.
+| `units-le` | extract every quantity with its unit, normalized, and refuse the ambiguous ones by name |
+| `ids-le` | extract every UUID, ULID, NanoID, ObjectId and Snowflake, and decode the time inside |
+| `ips-le` | extract every IP address, CIDR block and MAC, normalized and classified by scope |
 
 ---
 
