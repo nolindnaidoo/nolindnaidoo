@@ -5,9 +5,9 @@ export const projects: readonly Project[] = Object.freeze([
 		name: 'Limited Edition Dev Tools',
 		href: 'https://letools.dev',
 		summary:
-			'Sixteen single-purpose developer tools. Ten ship as zero-hassle VS Code extensions, past 100,000 downloads across Open VSX and the VS Code Marketplace; all sixteen ship as Rust crates on crates.io and as MCP servers an agent can call. Secrets detection that never leaves your machine, env sync with visual diff and conflict resolution, regex with live previews and ReDoS scoring, and thirteen more. Zed ports in progress.',
+			'Sixteen single-purpose developer tools. All sixteen ship as zero-hassle VS Code extensions, past 120,000 downloads across Open VSX and the VS Code Marketplace, as Rust crates on crates.io, and as MCP servers an agent can call. Secrets detection that never leaves your machine, env sync with visual diff and conflict resolution, regex with live previews and ReDoS scoring, and thirteen more.',
 		tech: 'TypeScript',
-		facts: Object.freeze(['10 extensions', '100K+ downloads', '16 Rust crates']),
+		facts: Object.freeze(['16 extensions', '120K+ downloads', '16 Rust crates']),
 	}),
 	Object.freeze({
 		name: 'pixelcoords',
@@ -31,19 +31,19 @@ export const projects: readonly Project[] = Object.freeze([
  * Where the open-source work ships — the publisher/namespace hubs, one per
  * channel. These live with the Open source section, not Elsewhere: they are
  * distribution for the work above, not identity. Every URL is the verified
- * canonical hub (the Open VSX namespace is genuinely `OffensiveEdge` — that
- * is where the extensions publish; renaming it would orphan 100K downloads).
+ * canonical hub. Both registries publish under `nolindnaidoo`, and each count
+ * is every extension there: the sixteen LE tools and JevLint-LE.
  */
 export const hubs: readonly Property[] = Object.freeze([
 	Object.freeze({
 		label: 'VS Code Marketplace',
 		href: 'https://marketplace.visualstudio.com/publishers/nolindnaidoo',
-		note: 'publisher · 10 extensions',
+		note: 'publisher · 17 extensions',
 	}),
 	Object.freeze({
 		label: 'Open VSX',
-		href: 'https://open-vsx.org/namespace/OffensiveEdge',
-		note: 'namespace · 10 extensions',
+		href: 'https://open-vsx.org/namespace/nolindnaidoo',
+		note: 'namespace · 17 extensions',
 	}),
 	Object.freeze({
 		label: 'npm',

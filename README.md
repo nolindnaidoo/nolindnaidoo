@@ -48,7 +48,7 @@ at.
 
 ---
 
-## Limited Edition Dev Tools · 100,000+ downloads
+## Limited Edition Dev Tools · 120,000+ downloads
 
 **[letools.dev](https://letools.dev)** — 16 tools, all 16 published to Open VSX and the VS
 Code Marketplace, and all 16 on the official **Model Context Protocol registry** so agents get
