@@ -123,11 +123,11 @@ export const ledger: readonly LedgerEntry[] = Object.freeze([
 	Object.freeze({
 		id: 'open-source',
 		claim: 'Developer tools shipped in the open, growing entirely by word of mouth',
-		value: '100K+',
+		value: '120K+',
 		secondary: 'downloads and climbing',
-		attribution: '10 VS Code extensions · 2 Rust binaries',
+		attribution: '16 VS Code extensions · 2 Rust binaries',
 		detail: Object.freeze([
-			'13,700 in the first week and it never slowed down — no marketing, no launch budget. Currently porting the suite to Zed and republishing the cores as Rust crates.',
+			'13,700 in the first week and it never slowed down — no marketing, no launch budget. All sixteen now ship as Rust crates and MCP servers as well.',
 		]),
 		sources: Object.freeze([
 			Object.freeze({ label: 'letools.dev', href: 'https://letools.dev' }),

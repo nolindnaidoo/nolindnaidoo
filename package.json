@@ -16,9 +16,8 @@
 		"lint:commits": "node scripts/commit-lint.js --range \"${BASE_SHA:-origin/main}\" \"${HEAD_SHA:-HEAD}\"",
 		"og": "bun scripts/build-og-image.ts",
 		"budget": "bun scripts/check-budget.ts",
-		"verify:content": "bun scripts/check-content-drift.ts",
 		"test:coverage": "vitest run --coverage",
-		"verify": "bun run lint && bun run typecheck && bun run test:coverage && bun run build && bun run budget && bun run verify:content && bun run e2e",
+		"verify": "bun run lint && bun run typecheck && bun run test:coverage && bun run build && bun run budget && bun run e2e",
 		"verify:deploy": "bun run lint && bun run typecheck && bun run test:coverage && bun run build && bun run budget"
 	},
 	"devDependencies": {

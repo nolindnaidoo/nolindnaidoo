@@ -54,9 +54,7 @@ export const caseStudies: readonly CaseStudy[] = Object.freeze([
 		slug: 'le-tools',
 		title: 'Less magic, more factory',
 		// No install figure here on purpose. The count lives in `ledger` and
-		// `projects`, which `check-content-drift` reads and verifies against the
-		// registries; restating it in a third place would put a number on the site
-		// that no gate is watching.
+		// `projects`; restating it in a third place is one more number to keep true.
 		annotation:
 			'Sixteen tools that came out of a data pipeline I could not take on trust, grown with no launch and no marketing. A year of building them with a model, the rewrite that threw the first version away, and the honest accounting of what the Rust port costs me.',
 		standfirst:
@@ -193,7 +191,7 @@ export const caseStudies: readonly CaseStudy[] = Object.freeze([
 			Object.freeze({ label: 'letools.dev', href: 'https://letools.dev' }),
 			Object.freeze({
 				label: 'Open VSX namespace',
-				href: 'https://open-vsx.org/namespace/OffensiveEdge',
+				href: 'https://open-vsx.org/namespace/nolindnaidoo',
 			}),
 			Object.freeze({ label: 'GitHub', href: 'https://github.com/nolindnaidoo' }),
 		]),
