@@ -30,14 +30,15 @@ That's where the experiment stands.
 
 ## JevLint-LE · a linter for Jev questions
 
-**[JevLint-LE](https://github.com/nolindnaidoo/jevlint-le)** — the first linter for the
-questions people write for TypeSafe's Jev model. Jev answers a badly worded question as fast
-and as confidently as a good one, so the mistake shows up later as wrong answers. This finds
-it in the code, before the request is sent.
+**[JevLint-LE](https://github.com/nolindnaidoo/jevlint-le)** — the first cross-language
+linter for the questions people write for TypeSafe's Jev model, in the editor, on the command
+line and as an MCP server. Jev answers a badly worded question as fast and as confidently as
+a good one, so the mistake shows up later as wrong answers. This finds it in the code, before
+the request is sent.
 
 It reads questions straight out of JSON, JavaScript, TypeScript, Python, Rust and Go, with no
-API key and no network calls. On the VS Code Marketplace and Open VSX, as a command line for
-CI, and as an MCP server for agents.
+API key and no network calls. On the VS Code Marketplace and Open VSX, on npm as a command
+line for CI, and as an MCP server for agents.
 
 The rules are measured, not asserted. I pulled questions from 1,411 public files across 720
 repositories and hand-labelled 300 of them before the rules ran: about 1 in 20 had a clear
@@ -50,8 +51,8 @@ at.
 ## Limited Edition Dev Tools · 100,000+ downloads
 
 **[letools.dev](https://letools.dev)** — 16 tools, all 16 published to Open VSX and the VS
-Code Marketplace, each with an MCP server so agents get the same interface editors do. Counts
-come from the registries' own APIs, not from me.
+Code Marketplace, and all 16 on the official **Model Context Protocol registry** so agents get
+the same interface editors do. Counts come from the registries' own APIs, not from me.
 
 Local, deterministic, exit codes as the API.
 
