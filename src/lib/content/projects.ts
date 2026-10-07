@@ -1,0 +1,63 @@
+import type { Project, Property } from './types';
+
+export const projects: readonly Project[] = Object.freeze([
+	Object.freeze({
+		name: 'Limited Edition Dev Tools',
+		href: 'https://letools.dev',
+		summary:
+			'Sixteen single-purpose developer tools. All sixteen ship as zero-hassle VS Code extensions, past 120,000 downloads across Open VSX and the VS Code Marketplace, as Rust crates on crates.io, and as MCP servers an agent can call. Secrets detection that never leaves your machine, env sync with visual diff and conflict resolution, regex with live previews and ReDoS scoring, and thirteen more.',
+		tech: 'TypeScript',
+		facts: Object.freeze(['16 extensions', '120K+ downloads', '16 Rust crates']),
+	}),
+	Object.freeze({
+		name: 'pixelcoords',
+		href: 'https://pixelcoords.dev',
+		summary:
+			'Coordinates a computer-use agent can trust, because a human marked them. Freeze the screen, mark regions with real shapes, and get pixel-exact targets as versioned JSON with labeled crops and click code — plus verification with exit codes and self-healing relocation when the UI moves. Built for driving desktop applications that never shipped an API: UI verification, accessibility auditing, and agent computer-use where a guessed coordinate is a failed run.',
+		tech: 'Rust',
+		facts: Object.freeze(['MIT', 'macOS · Windows · Linux', 'Human-in-the-loop']),
+	}),
+	Object.freeze({
+		name: 'pixelactions',
+		href: 'https://pixelactions.dev',
+		summary:
+			'The execution half: click, type, chord, drag, and scroll at human-marked coordinates, then confirm the interaction actually landed. Chained CLI, flow files, or a line protocol any language can drive. It cannot act on a coordinate a person did not verify first — that constraint is the point, and it is what separates a test harness from a bot.',
+		tech: 'Rust',
+		facts: Object.freeze(['MIT', 'macOS', 'Verified-only execution']),
+	}),
+]);
+
+/**
+ * Where the open-source work ships — the publisher/namespace hubs, one per
+ * channel. These live with the Open source section, not Elsewhere: they are
+ * distribution for the work above, not identity. Every URL is the verified
+ * canonical hub. Both registries publish under `nolindnaidoo`, and each count
+ * is every extension there: the sixteen LE tools and JevLint-LE.
+ */
+export const hubs: readonly Property[] = Object.freeze([
+	Object.freeze({
+		label: 'VS Code Marketplace',
+		href: 'https://marketplace.visualstudio.com/publishers/nolindnaidoo',
+		note: 'publisher · 17 extensions',
+	}),
+	Object.freeze({
+		label: 'Open VSX',
+		href: 'https://open-vsx.org/namespace/nolindnaidoo',
+		note: 'namespace · 17 extensions',
+	}),
+	Object.freeze({
+		label: 'npm',
+		href: 'https://www.npmjs.com/~nolindnaidoo',
+		note: '10 packages · Sigstore provenance',
+	}),
+	Object.freeze({
+		label: 'MCP Registry',
+		href: 'https://registry.modelcontextprotocol.io/v0/servers?search=io.github.nolindnaidoo',
+		note: 'io.github.nolindnaidoo · 10 servers',
+	}),
+	Object.freeze({
+		label: 'crates.io',
+		href: 'https://crates.io/users/nolindnaidoo',
+		note: 'published Rust crates',
+	}),
+]);

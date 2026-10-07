@@ -1,0 +1,137 @@
+import type { LedgerEntry } from './types';
+
+/**
+ * The record, ordered by impact rather than chronology. The three industry
+ * firsts lead, and each carries a year in its attribution — a "first" only
+ * means something anchored to when it was hard, and a bare superlative invites
+ * a reader to go disprove it.
+ *
+ * `value` is a measurement, never a superlative. The claim is where a "first"
+ * belongs, because prose can qualify it; the value column renders right-aligned
+ * mono with tabular numerals, which is the shape a reader reads as measured
+ * data. Three rows used to repeat their superlative there — said once in the
+ * headline where it could be scoped, and again in a slot that made it look
+ * counted. What goes there now is a measurement or a checkable fact — a scope,
+ * an outcome — never a claim of primacy.
+ *
+ * One entry per engagement. A second achievement from the same client belongs
+ * in that entry's `detail`, never as another row; `content.test.ts` enforces it.
+ *
+ * `secondary` and `sources` are always present (as `undefined` and `[]`) rather
+ * than optional, so no render body has to carry a fallback.
+ */
+export const ledger: readonly LedgerEntry[] = Object.freeze([
+	Object.freeze({
+		id: 'general-motors',
+		claim:
+			'Shipped Shop Click Drive — the first way to buy a car outright on a major manufacturer’s own website',
+		value: '+90%',
+		secondary: 'page speed',
+		attribution: 'General Motors · Shop Click Drive · 2017',
+		detail: Object.freeze([
+			'Chevrolet, GMC, Buick and Cadillac. Franchise law means the manufacturer can never hold the transaction, so the entire purchase brokers through a third party the customer never sees — one seamless flow built around a legal boundary.',
+			'Announced years earlier and still not live when I arrived. The program had a 100-person manual QA organization; I wrote the automated suite that gated the release on my own — Selenium, Mocha, Chai, Sinon, SuperTest, Postman — and took Google Page Speed up by 90%.',
+		]),
+		sources: Object.freeze([]),
+	}),
+	Object.freeze({
+		id: 'l3harris',
+		claim:
+			'Architected the first Node.js application put into service in the Department of Defense',
+		value: '0 → 80%',
+		secondary: 'test coverage',
+		attribution: 'L3Harris Technologies · Communication Systems · 2016',
+		detail: Object.freeze([
+			'Node.js and React into defense service, on a stack that had never cleared it. Moved 40 remote engineers off strictly-typed C# · test coverage 0 → 80% · React localization framework adopted enterprise-wide',
+		]),
+		sources: Object.freeze([]),
+	}),
+	Object.freeze({
+		id: 'jpmorgan',
+		claim:
+			'One of six engineers who rebuilt chase.com and the Chase mobile app as a single-page application',
+		value: '−30%',
+		secondary: 'codebase',
+		attribution: 'JPMorgan Chase & Co. · CMH1 flagship team · 2014',
+		detail: Object.freeze([
+			'Built on Ember at a Fortune 10 bank in 2014, when a bank shipping a single-page app at that scale was still unproven · jQuery fully removed · codebase down 30% · ten minutes off every build',
+		]),
+		sources: Object.freeze([]),
+	}),
+	Object.freeze({
+		id: 'ias',
+		claim:
+			'Staff product engineer on a national live-auction platform — sub-two-second feed, bids exact to thirteen decimal places',
+		value: '< 2s',
+		secondary: '13 decimals',
+		attribution: 'Integrated Auction Solutions',
+		detail: Object.freeze([
+			'In a live auction, rounding error decides who wins — thirteen places of precision removed it for every bidder in the country.',
+			'Built the consumer website, the mobile app, and the on-site inventory cataloging apps outright — React and React Native on one schema.',
+		]),
+		sources: Object.freeze([]),
+	}),
+	Object.freeze({
+		id: 'rumbleon',
+		claim:
+			'Staff forward deployed engineer for what is now the largest motorcycle retailer in the country — web, mobile, and a serverless rebuild',
+		value: '−75% cloud',
+		secondary: '$40K → $10K / mo',
+		attribution: 'RumbleOn',
+		detail: Object.freeze([
+			'Created Carvis, the direct vehicle-purchasing mobile platform, and led website and mobile development end to end — AppSync and GraphQL on React Native, lead-to-sale conversion up 22%.',
+			'RumbleOn ran on the auction platform I built at Integrated Auction Solutions, and brought me in to own their side of it.',
+		]),
+		sources: Object.freeze([]),
+	}),
+	Object.freeze({
+		id: 't-rowe-price',
+		claim:
+			'Shipped the localization layer behind a global asset manager’s client site — the languages its brokers use with clients',
+		value: '15+ locales',
+		secondary: '500+ a11y fixes',
+		attribution: 'T. Rowe Price',
+		detail: Object.freeze([
+			'Granite i18n across every supported market, and the ADA remediation pilot that found and resolved 500+ accessibility failures on the same platform.',
+		]),
+		sources: Object.freeze([]),
+	}),
+	Object.freeze({
+		id: 'kofile',
+		claim:
+			'Led the accessibility work that brought the State of Texas digital records system into ADA and Section 508 compliance',
+		value: 'Statewide',
+		secondary: 'task completion +34%',
+		attribution: 'Kofile Technologies',
+		detail: Object.freeze([
+			'Rebuilt the experience from business-centric to human-centric, and taught the product managers to treat accessibility as a requirement rather than a remediation.',
+		]),
+		sources: Object.freeze([]),
+	}),
+	Object.freeze({
+		id: 'poly-lingo',
+		claim:
+			'Lead developer on an award-winning EMS interpretation platform, through to its acquisition',
+		value: 'acquired',
+		secondary: undefined,
+		attribution: 'Poly Lingo / MedLingo → ESO Solutions',
+		detail: Object.freeze([
+			'Texas Fire Chief’s Lone Star Achievement Award · EMS World Top Innovation Award · shipped the iOS product to the App Store.',
+		]),
+		sources: Object.freeze([]),
+	}),
+	Object.freeze({
+		id: 'open-source',
+		claim: 'Developer tools shipped in the open, growing entirely by word of mouth',
+		value: '120K+',
+		secondary: 'downloads and climbing',
+		attribution: '16 VS Code extensions · 2 Rust binaries',
+		detail: Object.freeze([
+			'13,700 in the first week and it never slowed down — no marketing, no launch budget. All sixteen now ship as Rust crates and MCP servers as well.',
+		]),
+		sources: Object.freeze([
+			Object.freeze({ label: 'letools.dev', href: 'https://letools.dev' }),
+			Object.freeze({ label: 'crates.io', href: 'https://crates.io/crates/pixelcoords' }),
+		]),
+	}),
+]);
