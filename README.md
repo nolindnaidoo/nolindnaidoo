@@ -22,6 +22,9 @@ merge. Axe runs on every page, in both themes, because I spent years on ADA / WC
 508 remediation at Fortune 500 scale. Users don't grade your code, they grade whether the thing
 works, so the scoreboard is downloads.
 
+[nolindnaidoo.com](https://nolindnaidoo.com) ·
+[LinkedIn](https://www.linkedin.com/in/nolindnaidoo/) is the fastest way to reach me.
+
 ---
 
 ## Limited Edition Dev Tools · 120,000+ downloads
@@ -50,31 +53,3 @@ Local, deterministic, exit codes as the API.
 | `units-le` | extract every quantity with its unit, normalized, and refuse the ambiguous ones by name |
 | `ids-le` | extract every UUID, ULID, NanoID, ObjectId and Snowflake, and decode the time inside |
 | `ips-le` | extract every IP address, CIDR block and MAC, normalized and classified by scope |
-
----
-
-## pixelcoords · pixelactions
-
-Two halves of one idea, in Rust, MIT: **coordinates a computer-use agent can trust, because a
-human marked them.**
-
-**[pixelcoords](https://pixelcoords.dev)** freezes the screen, lets you mark regions with real
-shapes, and returns pixel-exact targets as versioned JSON — labeled crops, click code,
-verification with exit codes, self-healing relocation when the UI moves.
-
-**[pixelactions](https://pixelactions.dev)** is the execution half: click, type, chord, drag,
-scroll at those coordinates, then confirm the interaction landed. Chained CLI, flow files, or a
-line protocol any language can drive.
-
-Built for driving desktop applications that never shipped an API, where a guessed coordinate is
-a failed run. It cannot act on a coordinate a person did not verify first. That constraint is
-the point.
-
----
-
-**Stack** — Python · PyTorch · TypeScript · Rust · React · React Native · Next.js · Node.js ·
-Bun · GraphQL · PostgreSQL · Redis · AWS · Docker · Kubernetes · Terraform · LLM · RAG · MCP ·
-agentic systems · MLOps
-
-[nolindnaidoo.com](https://nolindnaidoo.com) ·
-[LinkedIn](https://www.linkedin.com/in/nolindnaidoo/) is the fastest way to reach me.
